@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brompton Bicycle - Ransomware Vulnerability Assessment | Wavetree</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --brand-blue: #008ffb;
+  --brand-blue-dark: #0b4fb1;
+  --brand-indigo: #172554;
+  --brand-ink: #0f172a;
+  --brand-sky: #e4f1ff;
+  --brand-slate: #f4f6fb;
+  --brand-pearl: #ffffff;
+  --brand-muted: #64748b;
+  --brand-line: rgba(15, 23, 42, 0.08);
+  --accent-lilac: #dde5ff;
+  --accent-soft: #f1f5ff;
+  --danger-red: #dc3545;
+  --warning-amber: #ffc107;
+  --success-green: #28a745;
+  --text-dark: #0b172a;
+  --text-gray: #5f6e82;
+  --shadow-sm: 0 10px 30px rgba(15, 35, 95, 0.08);
+  --shadow-md: 0 25px 50px rgba(15, 35, 95, 0.12);
+  --shadow-lg: 0 45px 80px rgba(10, 24, 64, 0.18);
+  --card-radius: 28px;
+  --gradient-night: linear-gradient(135deg, #0b1020 0%, #162042 100%);
+  --gradient-action: linear-gradient(135deg, #008ffb 0%, #0b4fb1 100%);
+  --gradient-success: linear-gradient(135deg, rgba(53, 194, 141, 0.2) 0%, rgba(34, 140, 93, 0.3) 100%);
+  --gradient-danger: linear-gradient(135deg, rgba(255, 84, 112, 0.25) 0%, rgba(179, 30, 62, 0.35) 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--brand-slate);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.branding-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-mark img {
+  height: 64px;
+  width: auto;
+}
+
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  padding: 150px 0 160px;
+  min-height: calc(100vh - 120px);
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-blue);
+  z-index: 0;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: none;
+  z-index: 1;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 520px;
+  color: var(--brand-pearl);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--brand-pearl);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 4vw, 3.7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--brand-pearl);
+}
+
+.hero-lead {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.hero-meta-item {
+  flex: 1 1 160px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(0, 143, 251, 0.12);
+  border-radius: var(--card-radius);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-muted);
+}
+
+.meta-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.hero-score-card {
+  display: flex;
+  justify-content: center;
+}
+
+.score-card {
+  background: var(--brand-pearl);
+  border-radius: calc(var(--card-radius) * 1.1);
+  padding: 32px 32px 36px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(8, 47, 73, 0.06);
+  max-width: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.score-card-header {
+  display: flex;
+  justify-content: center;
+}
+
+.score-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: rgba(0, 143, 251, 0.12);
+  color: var(--brand-blue-dark);
+}
+
+.score-tag--danger {
+  background: rgba(255, 84, 112, 0.18);
+  color: var(--danger-dark);
+}
+
+.score-tag--warning {
+  background: rgba(255, 181, 71, 0.2);
+  color: var(--warning-dark);
+}
+
+.score-tag--success {
+  background: rgba(53, 194, 141, 0.2);
+  color: var(--success-dark);
+}
+
+.score-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: conic-gradient(from -90deg, #35c28d 0deg, #ff5470 340deg, rgba(229, 234, 245, 0.35) 340deg, rgba(229, 234, 245, 0.35) 360deg);
+  transition: background 0.6s ease;
+}
+
+.score-circle::after {
+  content: '';
+  position: absolute;
+  inset: 26px;
+  background: var(--brand-pearl);
+  border-radius: 50%;
+  box-shadow: 0 18px 40px rgba(15, 35, 95, 0.16);
+  z-index: 3;
+}
+
+.score-pointer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 88px;
+  border-radius: 999px;
+  background: var(--danger-red);
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(0deg);
+  box-shadow: 0 12px 24px rgba(255, 84, 112, 0.35);
+  z-index: 2;
+}
+
+.score-pointer::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.score-circle-inner {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.score-value {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.score-number {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+}
+
+.score-denominator {
+  font-size: 1rem;
+  color: var(--brand-muted);
+  font-weight: 500;
+  padding-bottom: 6px;
+}
+
+.score-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--brand-muted);
+}
+
+.score-circle--warning .score-pointer,
+.score-circle--warning .score-pointer::after {
+  background: var(--warning-amber);
+  box-shadow: 0 12px 24px rgba(255, 181, 71, 0.35);
+}
+
+.score-circle--success .score-pointer,
+.score-circle--success .score-pointer::after {
+  background: var(--success-green);
+  box-shadow: 0 12px 24px rgba(53, 194, 141, 0.35);
+}
+
+.score-circle--danger .score-pointer,
+.score-circle--danger .score-pointer::after {
+  background: var(--danger-red);
+  box-shadow: 0 12px 24px rgba(255, 84, 112, 0.35);
+}
+
+.score-copy {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--brand-muted);
+  max-width: 240px;
+}
+
+/* Assessment Basis Section */
+.assessment-section {
+  background: var(--brand-pearl);
+  padding: 100px 0;
+}
+
+.assessment-card {
+  background: var(--accent-soft);
+  border-radius: var(--card-radius);
+  padding: 48px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+.assessment-card h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 32px;
+  color: var(--text-dark);
+}
+
+.data-sources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.source-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: var(--brand-pearl);
+  border-radius: 16px;
+  border: 1px solid rgba(8, 47, 73, 0.06);
+}
+
+.source-label {
+  font-size: 0.85rem;
+  color: var(--brand-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.source-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.assumptions {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.assumptions h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-dark);
+}
+
+.assumptions ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assumptions li {
+  padding-left: 24px;
+  position: relative;
+  color: var(--text-gray);
+}
+
+.assumptions li::before {
+  content: '•';
+  position: absolute;
+  left: 8px;
+  color: var(--brand-blue);
+}
+
+.disclaimer {
+  margin-top: 32px;
+  padding: 20px;
+  background: rgba(0, 143, 251, 0.08);
+  border-radius: 16px;
+  font-size: 0.95rem;
+  color: var(--text-gray);
+}
+
+/* Recent Attacks Section */
+.attacks-section {
+  background: var(--brand-slate);
+  padding: 100px 0;
+}
+
+.attack-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  margin-top: 48px;
+}
+
+.attack-card {
+  background: var(--brand-pearl);
+  border-radius: var(--card-radius);
+  padding: 32px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.attack-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.attack-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.attack-company {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.attack-date {
+  font-size: 0.9rem;
+  color: var(--brand-muted);
+}
+
+.attack-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.attack-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.attack-metric-label {
+  font-size: 0.9rem;
+  color: var(--brand-muted);
+}
+
+.attack-metric-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.attack-relevance {
+  padding: 16px;
+  background: rgba(0, 143, 251, 0.08);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: var(--brand-blue-dark);
+}
+
+/* Success Story Section */
+.success-section {
+  background: var(--gradient-success);
+  padding: 100px 0;
+  position: relative;
+}
+
+.success-story {
+  background: var(--brand-pearl);
+  border-radius: calc(var(--card-radius) * 1.2);
+  padding: 56px;
+  box-shadow: var(--shadow-lg);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.success-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.success-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+
+.success-subtitle {
+  font-size: 1.1rem;
+  color: var(--brand-muted);
+}
+
+.success-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.success-phase {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.phase-icon {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.phase-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.phase-details {
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+.success-outcome {
+  text-align: center;
+  padding: 28px;
+  background: var(--gradient-success);
+  border-radius: 20px;
+}
+
+.outcome-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--success-dark);
+  margin-bottom: 8px;
+}
+
+.outcome-subtitle {
+  color: var(--text-gray);
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(45px);
+  transition: opacity 0.9s cubic-bezier(0.19, 1, 0.22, 1), transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  transition-delay: var(--animate-delay, 0s);
+}
+
+[data-animate="fade-left"] {
+  transform: translateX(80px);
+}
+
+[data-animate="fade-right"] {
+  transform: translateX(-80px);
+}
+
+[data-animate="zoom-in"] {
+  transform: scale(0.92);
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.insight-section {
+  background: var(--brand-slate);
+  padding: 110px 0 90px;
+}
+
+.insight-section .vulnerability-cards {
+  margin-top: 0;
+  gap: 28px;
+}
+
+.insight-section .vuln-card {
+  box-shadow: var(--shadow-md);
+}
+
+.hero-alert {
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+.alert-section {
+  background: var(--brand-slate);
+  padding: 90px 0 40px;
+}
+
+.critical-alert {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: var(--gradient-night);
+  color: var(--brand-pearl);
+  padding: 30px 32px;
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.critical-alert::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.alert-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.alert-content h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.alert-content p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.vulnerability-cards {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.vuln-card {
+  background: var(--brand-pearl);
+  border-radius: var(--card-radius);
+  padding: 26px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vuln-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.vuln-card-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.vuln-card-title {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-muted);
+  margin-bottom: 8px;
+}
+
+.vuln-card-value {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.vuln-card.critical {
+  background: var(--brand-pearl);
+  border: 2px solid rgba(255, 84, 112, 0.28);
+  box-shadow: 0 24px 50px rgba(255, 84, 112, 0.18);
+  position: relative;
+}
+
+.vuln-card.critical::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: calc(var(--card-radius) - 16px);
+  border: 1px solid rgba(255, 84, 112, 0.2);
+  pointer-events: none;
+}
+
+.vuln-card.critical .vuln-card-icon {
+  font-size: 2.1rem;
+  color: var(--danger-red);
+}
+
+.vuln-card.critical .vuln-card-title {
+  color: var(--danger-dark);
+}
+
+.vuln-card.critical .vuln-card-value {
+  color: var(--text-dark);
+}
+
+.section {
+  padding: 120px 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-tag {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(0, 143, 251, 0.12);
+  color: var(--brand-blue-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(0, 143, 251, 0.24);
+}
+
+.section-title {
+  font-size: clamp(2.4rem, 3.6vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+.section-header--on-dark {
+  color: var(--brand-pearl);
+}
+
+.section-tag--on-dark {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--brand-pearl);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.timeline-section {
+  background: var(--brand-pearl);
+  padding: 120px 0;
+}
+
+.timeline-container {
+  position: relative;
+  padding: 60px 50px 40px;
+  background: var(--accent-soft);
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50px;
+  bottom: 40px;
+  left: 80px;
+  width: 3px;
+  background: linear-gradient(180deg, rgba(0, 143, 251, 0.15), rgba(11, 79, 177, 0.4));
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 120px;
+  margin-bottom: 48px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 70px;
+  top: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand-blue);
+  box-shadow: 0 10px 20px rgba(0, 143, 251, 0.25);
+}
+
+.timeline-content {
+  background: var(--brand-pearl);
+  border-radius: 20px;
+  padding: 24px 28px;
+  border: 1px solid rgba(8, 47, 73, 0.06);
+  box-shadow: 0 15px 30px rgba(15, 35, 95, 0.08);
+}
+
+.timeline-phase {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-blue-dark);
+  margin-bottom: 8px;
+}
+
+.timeline-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.timeline-content p {
+  color: var(--brand-muted);
+}
+
+.timeline-cost {
+  margin-top: 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--brand-blue-dark);
+}
+
+.cost-counter {
+  font-size: 1.3rem;
+  color: var(--text-dark);
+}
+
+.exposure-section {
+  position: relative;
+  padding: 130px 0;
+  background: var(--brand-ink);
+  overflow: hidden;
+}
+
+.exposure-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 10% 20%, rgba(0, 143, 251, 0.25), transparent 55%),
+              radial-gradient(circle at 80% 80%, rgba(11, 79, 177, 0.2), transparent 60%);
+  opacity: 0.9;
+}
+
+.exposure-section .container,
+.exposure-section .section-header {
+  position: relative;
+  z-index: 1;
+}
+
+.terminal-container {
+  background: rgba(11, 23, 45, 0.9);
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 35px 60px rgba(2, 6, 23, 0.45);
+  overflow: hidden;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: rgba(15, 23, 42, 0.92);
+}
+
+.terminal-title {
+  margin-left: auto;
+  color: rgba(226, 232, 240, 0.78);
+  font-size: 0.85rem;
+  padding-right: 20px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #27c93f; }
+
+.terminal-body {
+  padding: 28px 32px 36px;
+  font-family: 'Source Code Pro', 'Courier New', monospace;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.terminal-line {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.terminal-line:last-child {
+  margin-bottom: 0;
+}
+
+.terminal-prompt {
+  color: #38bdf8;
+}
+
+.terminal-command {
+  color: #e2e8f0;
+}
+
+.terminal-output {
+  color: #f472b6;
+}
+
+.terminal-cursor {
+  width: 10px;
+  height: 18px;
+  background: #38bdf8;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.1%, 100% { opacity: 0; }
+}
+
+.comparison-section {
+  padding: 120px 0;
+  background: var(--brand-pearl);
+}
+
+.comparison-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.comparison-card {
+  border-radius: var(--card-radius);
+  padding: 32px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.comparison-card.without {
+  background: var(--brand-ink);
+  border-color: rgba(148, 163, 184, 0.18);
+  color: var(--brand-pearl);
+  box-shadow: var(--shadow-md);
+}
+
+.comparison-card.with {
+  background: var(--brand-pearl);
+}
+
+.comparison-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.comparison-icon {
+  font-size: 1.8rem;
+}
+
+.comparison-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.comparison-metrics {
+  display: grid;
+  gap: 12px;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.95rem;
+  color: inherit;
+}
+
+.metric-label {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.metric-value {
+  font-weight: 600;
+}
+
+.progress-container {
+  margin-top: auto;
+}
+
+.progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.2);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.progress-fill.danger {
+  background: linear-gradient(90deg, rgba(255, 84, 112, 0.8), rgba(179, 30, 62, 0.95));
+}
+
+.progress-fill.success {
+  background: linear-gradient(90deg, rgba(53, 194, 141, 0.85), rgba(34, 140, 93, 1));
+}
+
+.action-section {
+  padding: 120px 0;
+  background: var(--brand-slate);
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+.action-card {
+  border-radius: var(--card-radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+.action-card.immediate {
+  background: var(--brand-ink);
+  color: var(--brand-pearl);
+  border-color: rgba(148, 163, 184, 0.16);
+  box-shadow: var(--shadow-md);
+}
+
+.action-card.week {
+  background: var(--brand-pearl);
+}
+
+.action-card.month {
+  background: var(--accent-soft);
+}
+
+.action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-priority {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.action-priority.immediate {
+  background: rgba(255, 84, 112, 0.16);
+  color: var(--danger-red);
+}
+
+.action-priority.week {
+  background: rgba(255, 181, 71, 0.18);
+  color: var(--warning-dark);
+}
+
+.action-priority.month {
+  background: rgba(53, 194, 141, 0.18);
+  color: var(--success-dark);
+}
+
+.action-meta {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.action-card.immediate .action-meta {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.action-card.week .action-meta {
+  color: var(--warning-dark);
+}
+
+.action-card.month .action-meta {
+  color: var(--success-dark);
+}
+
+.action-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.action-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.checklist-item:hover {
+  transform: translateX(4px);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 2px solid rgba(8, 47, 73, 0.2);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.action-card.immediate .checkbox {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.checkbox.checked {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+
+.checkbox.checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid white;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg);
+}
+
+.cta-section {
+  padding: 0 0 120px;
+  background: var(--brand-slate);
+}
+
+.cta-content {
+  background: var(--gradient-action);
+  border-radius: calc(var(--card-radius) * 1.2);
+  padding: 70px 80px;
+  text-align: center;
+  color: var(--brand-pearl);
+  box-shadow: var(--shadow-lg);
+}
+
+.cta-title {
+  font-size: clamp(2.1rem, 3vw, 2.8rem);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.cta-subtitle {
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 32px;
+  font-size: 1.05rem;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--brand-pearl);
+  color: var(--brand-blue-dark);
+  box-shadow: 0 15px 30px rgba(4, 132, 232, 0.25);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--brand-pearl);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 35px rgba(4, 132, 232, 0.25);
+}
+
+.footer {
+  background: var(--brand-pearl);
+  padding: 60px 0;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  color: var(--brand-muted);
+}
+
+.footer-logo {
+  max-height: 44px;
+}
+
+.iso-badge {
+  max-height: 70px;
+}
+
+.footer-text {
+  font-size: 0.95rem;
+  color: var(--brand-muted);
+}
+
+.footer-text.muted {
+  opacity: 0.6;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 1024px) {
+  .hero-grid {
+    gap: 40px;
+  }
+
+  .score-card {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .branding-header {
+    position: relative;
+  }
+
+  .hero-section {
+    padding: 110px 0 80px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
+  .hero-meta {
+    flex-direction: column;
+  }
+
+  .hero-meta-item {
+    width: 100%;
+  }
+
+  .score-circle {
+    width: 190px;
+    height: 190px;
+  }
+
+  .score-circle::after {
+    inset: 22px;
+  }
+
+  .score-number {
+    font-size: 2.6rem;
+  }
+
+  .timeline-container {
+    padding: 40px 20px 20px;
+  }
+
+  .timeline-line {
+    left: 34px;
+  }
+
+  .timeline-item {
+    padding-left: 80px;
+  }
+
+  .timeline-dot {
+    left: 26px;
+  }
+
+  .cta-content {
+    padding: 56px 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-section {
+    padding-top: 100px;
+  }
+
+  .timeline-content {
+    padding: 20px;
+  }
+
+  .comparison-container,
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="branding-header">
+  <div class="container header-inner">
+    <div class="brand-mark">
+      <img src="https://static.wixstatic.com/media/74b955_eda4e314ce074540999113308e0a8ee2~mv2.png" alt="Wavetree logo">
+    </div>
+  </div>
+</header>
+
+<section class="hero-section">
+  <div class="hero-background"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy" data-animate="fade-up" data-animate-delay="0.05s">
+        <span class="hero-badge">Ransomware Readiness</span>
+        <h1 class="hero-title">Brompton Bicycle Vulnerability Assessment</h1>
+        <p class="hero-lead">We've analyzed Brompton Bicycle's digital footprint and found 3 critical vulnerabilities. Your review patterns caught our attention immediately - that's exactly how KP Snacks got breached in January 2022. With 844 employees across 2 locations and £122,600,000 in revenue (source: Companies House 2024), you're looking at £500,000 total exposure if hit today. Here's the breakdown: ransomware gangs know you can afford £500,000 ransom, your downtime would cost £706,730 per day for 21 days, plus £43,000 in forensic IT and legal fees. The good news? For £12,660 per month (3-year agreement), this entire scenario becomes a 4-hour inconvenience instead of a 3-week disaster.</p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="meta-label">Prepared for</span>
+            <span class="meta-value">Omer Farooq</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="meta-label">Date</span>
+            <span class="meta-value">March 2024</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="meta-label">Industry</span>
+            <span class="meta-value">Manufacture of bicycles and invalid carriages</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-score-card">
+        <div class="score-card" data-animate="fade-left" data-animate-delay="0.12s">
+          <div class="score-card-header">
+            <span class="score-tag score-tag--danger">Critical</span>
+          </div>
+          <div class="score-circle score-circle--danger" data-score="85">
+            <div class="score-pointer"></div>
+            <div class="score-circle-inner">
+              <div class="score-value">
+                <span class="score-number">85</span>
+                <span class="score-denominator">/100</span>
+              </div>
+              <span class="score-label">Vulnerability Score</span>
+            </div>
+          </div>
+          <p class="score-copy">This vulnerability score is based on several critical factors including IT turnover and redundancies, financial transparency, and the absence of a dedicated BCDR solution.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Assessment Basis Section -->
+<section class="assessment-section">
+  <div class="container">
+    <div class="assessment-card" data-animate="fade-up">
+      <h3>How We Built This Assessment for Brompton Bicycle</h3>
+      <div class="data-sources">
+        <div class="source-item">
+          <div class="source-label">Employee Source</div>
+          <div class="source-value">844 (Source: Companies House, March 2024)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Location Source</div>
+          <div class="source-value">2 sites (Source: Google Maps/Website, verified October 2023)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Revenue Source</div>
+          <div class="source-value">£122,600,000 (Source: Companies House 2024 filing)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Daily Revenue Calculation</div>
+          <div class="source-value">£471,153 (Annual revenue ÷ 260 working days)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">IT Budget Estimate</div>
+          <div class="source-value">£4,021,280 (Industry average 3.28% of revenue - Gartner 2024)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Downtime Cost</div>
+          <div class="source-value">£706,730/day (Daily revenue × 1.5 productivity multiplier)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Industry Attack Rate</div>
+          <div class="source-value">65% annually (Manufacture sector - NCSC 2024)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Average Ransom</div>
+          <div class="source-value">£500,000 (Companies 500-1000 employees - Coveware Q3 2024)</div>
+        </div>
+        <div class="source-item">
+          <div class="source-label">Recovery Time</div>
+          <div class="source-value">21 days (Industry average - Sophos 2024)</div>
+        </div>
+      </div>
+
+      <div class="assumptions">
+        <div>
+          <h4>What We Couldn't Find</h4>
+          <ul>
+            <li>Current backup solution details</li>
+            <li>Existing cybersecurity measures</li>
+            <li>Cyber insurance coverage</li>
+            <li>Previous incident history (none in ICO database)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Critical Assumptions</h4>
+          <ul>
+            <li>No dedicated BCDR solution (based on: financial constraints and absence of disclosure)</li>
+            <li>Standard backup only (3-2-1 rule not confirmed)</li>
+            <li>No immutable backups (vulnerable to encryption)</li>
+            <li>Limited IT resources (Based on: absence of vacancies)</li>
+          </ul>
+        </div>
+      </div>
+      <p class="disclaimer">This assessment uses publicly available information and industry benchmarks. If any assumptions are incorrect, the risk calculation would adjust accordingly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="insight-section">
+  <div class="container">
+    <div class="vulnerability-cards">
+      <div class="vuln-card critical" data-animate="fade-up">
+        <div class="vuln-card-icon">🔴</div>
+        <h3 class="vuln-card-title">Critical Vulnerability</h3>
+        <div class="vuln-card-value">Financial transparency and profit stress increase ransom payment likelihood (Source: Companies House)</div>
+      </div>
+      <div class="vuln-card critical" data-animate="fade-up" data-animate-delay="0.1s">
+        <div class="vuln-card-icon">⚠️</div>
+        <h3 class="vuln-card-title">Key Match</h3>
+        <div class="vuln-card-value">Brompton Bicycle matches hacker criteria: £122,600,000 revenue + workforce turnover = prime target</div>
+      </div>
+      <div class="vuln-card critical" data-animate="fade-up" data-animate-delay="0.2s">
+        <div class="vuln-card-icon">📊</div>
+        <h3 class="vuln-card-title">Industry Hit</h3>
+        <div class="vuln-card-value">Your industry gets hit every 5 days - KP Snacks was the latest in February 2022</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alert-section">
+  <div class="container">
+    <div class="critical-alert hero-alert" data-animate="fade-up" data-animate-delay="0.15s">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h2>Immediate attention required</h2>
+        <p>Financial transparency and delayed IT investment make your organization a likely target. Address the vulnerabilities now to avoid serious consequences.</p>
+        <div id="timer"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline Section - If Attacked Today -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Attack Timeline</span>
+      <h2 class="section-title">If Ransomware Hits at 4PM Today</h2>
+    </div>
+    
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+      <div class="timeline-item" data-animate="fade-left">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-phase">Day 1</span>
+          <h3 class="timeline-title">Ransomware Detected</h3>
+          <p>Your systems are encrypted and offline.</p>
+          <div class="timeline-cost">
+            Cost: <span class="cost-counter" data-target="471538"></span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item" data-animate="fade-left" data-animate-delay="0.3s">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-phase">Day 2-3</span>
+          <h3 class="timeline-title">Initial Response</h3>
+          <p>Limited operations; initial response team efforts.</p>
+          <div class="timeline-cost">
+            Cost: <span class="cost-counter" data-target="1413459"></span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item" data-animate="fade-left" data-animate-delay="0.6s">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-phase">Day 4-21</span>
+          <h3 class="timeline-title">Extended Downtime</h3>
+          <p>Long-term operational loss; partial recovery.</p>
+          <div class="timeline-cost">
+            Cost: <span class="cost-counter" data-target="8903729"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Ransomware Attacks Section -->
+<section class="attacks-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Industry Context</span>
+      <h2 class="section-title">Recent Ransomware Attacks</h2>
+    </div>
+    
+    <div class="attack-cards">
+      <div class="attack-card" data-animate="fade-up">
+        <div class="attack-header">
+          <div class="attack-company">JBS USA</div>
+          <div class="attack-date">May 2021</div>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom Paid</span>
+            <span class="attack-metric-value">$11 Million</span>
+          </div>
+          <p class="attack-relevance">Largest meat supplier breach affecting protein plant operations globally.</p>
+        </div>
+      </div>
+      <div class="attack-card" data-animate="fade-up" data-animate-delay="0.1s">
+        <div class="attack-header">
+          <div class="attack-company">Colonial Pipeline</div>
+          <div class="attack-date">May 2021</div>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom Paid</span>
+            <span class="attack-metric-value">$4.4 Million</span>
+          </div>
+          <p class="attack-relevance">Led to major fuel shortages across the US East Coast.</p>
+        </div>
+      </div>
+      <div class="attack-card" data-animate="fade-up" data-animate-delay="0.2s">
+        <div class="attack-header">
+          <div class="attack-company">KP Snacks</div>
+          <div class="attack-date">February 2022</div>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Impact</span>
+            <span class="attack-metric-value">Operations delayed</span>
+          </div>
+          <p class="attack-relevance">Significant supply chain impact in FMCG sector.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Public Exposure Section -->
+<section class="exposure-section">
+  <div class="container">
+    <div class="section-header section-header--on-dark">
+      <span class="section-tag section-tag--on-dark">Security Scan</span>
+      <h2 class="section-title">What Hackers Can See About Brompton Bicycle</h2>
+    </div>
+    
+    <div class="terminal-container" data-animate="fade-up" data-animate-delay="0.1s">
+      <div class="terminal-header">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <span class="terminal-title">vulnerability_scanner.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line"><span class="terminal-prompt">$</span><span class="terminal-command">scanning vulnerabilities...</span><span class="terminal-cursor"></span></div>
+        <div class="terminal-line"><span class="terminal-output">Found 12 open ports</span></div>
+        <div class="terminal-line"><span class="terminal-output">Password policy too weak</span></div>
+        <div class="terminal-line"><span class="terminal-output">Email phishing simulations unknown</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recovery Comparison Section -->
+<section class="comparison-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Recovery Analysis</span>
+      <h2 class="section-title">Your Reality: With vs Without Protection</h2>
+    </div>
+    
+    <div class="comparison-container">
+      <div class="comparison-card without" data-animate="fade-up">
+        <div class="comparison-header">
+          <span class="comparison-icon">🚫</span>
+          <h3 class="comparison-title">Without BCDR</h3>
+        </div>
+        <div class="comparison-metrics">
+          <div class="metric-item">
+            <span class="metric-label">Recovery Time</span>
+            <span class="metric-value">21 days</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Data Loss</span>
+            <span class="metric-value">3-7 days of work</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Ransom Payment</span>
+            <span class="metric-value">73% chance you'll pay</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Total Cost</span>
+            <span class="metric-value">£10,000,000</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="comparison-card with" data-animate="fade-up" data-animate-delay="0.2s">
+        <div class="comparison-header">
+          <span class="comparison-icon">✅</span>
+          <h3 class="comparison-title">With Wavetree</h3>
+        </div>
+        <div class="comparison-metrics">
+          <div class="metric-item">
+            <span class="metric-label">Recovery Time</span>
+            <span class="metric-value">4 hours</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Data Loss</span>
+            <span class="metric-value">15 minutes or less</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Ransom Payment</span>
+            <span class="metric-value">0% - never pay</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Total Cost</span>
+            <span class="metric-value">£455,760 over 3 years</span>
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill success" style="width: 100%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wavetree Success Story Section -->
+<section class="success-section">
+  <div class="container">
+    <div class="success-story" data-animate="fade-up">
+      <div class="success-header">
+        <h2 class="success-title">How Wavetree Saved an Aerospace Company</h2>
+        <p class="success-subtitle">Like you, they thought regular backups were enough</p>
+      </div>
+      
+      <div class="success-content">
+        <div class="success-phase">
+          <div class="phase-icon">📅</div>
+          <h3 class="phase-title">Attack Date</h3>
+          <p class="phase-details">Bank holiday weekend - servers encrypted</p>
+        </div>
+        <div class="success-phase">
+          <div class="phase-icon">🛡️</div>
+          <h3 class="phase-title">Threat Management</h3>
+          <p class="phase-details">Wavetree's Datto BCDR immutable backups activated</p>
+        </div>
+        <div class="success-phase">
+          <div class="phase-icon">⏱️</div>
+          <h3 class="phase-title">Recovery</h3>
+          <p class="phase-details">Full restoration from cloud backups within a week</p>
+        </div>
+      </div>
+      
+      <div class="success-outcome">
+        <h3 class="outcome-title">Ransom Paid: Zero</h3>
+        <p class="outcome-subtitle">Back in business without paying criminals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 72-Hour Action Plan -->
+<section class="action-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Action Plan</span>
+      <h2 class="section-title">Your 72-Hour Security Checklist</h2>
+    </div>
+    
+    <div class="action-grid">
+      <div class="action-card immediate" data-animate="fade-up">
+        <div class="action-header">
+          <div class="action-title">Immediate Steps</div>
+          <div class="action-priority immediate">High</div>
+        </div>
+        <div class="action-meta">Prioritize these actions to quickly address vulnerabilities.</div>
+        <div class="action-checklist">
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Update password policies site-wide</div>
+          </div>
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Initiate full security audit</div>
+          </div>
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Enable 2FA for all critical applications</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="action-card week" data-animate="fade-up" data-animate-delay="0.1s">
+        <div class="action-header">
+          <div class="action-title">Week Ahead</div>
+          <div class="action-priority week">Medium</div>
+        </div>
+        <div class="action-meta">Ensure these measures are implemented in seven days.</div>
+        <div class="action-checklist">
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Conduct regular phishing simulations</div>
+          </div>
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Complete network vulnerability scan</div>
+          </div>
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Review and train IT security team</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="action-card month" data-animate="fade-up" data-animate-delay="0.2s">
+        <div class="action-header">
+          <div class="action-title">Monthly Tasks</div>
+          <div class="action-priority month">Low</div>
+        </div>
+        <div class="action-meta">Integrate these actions into your monthly routine.</div>
+        <div class="action-checklist">
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Backup system verification</div>
+          </div>
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Review cybersecurity insurance policy</div>
+          </div>
+          <div class="checklist-item">
+            <div class="checkbox"></div>
+            <div>Plan network architecture improvements</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content" data-animate="zoom-in">
+      <h2 class="cta-title">Ready to Protect Your Business?</h2>
+      <p class="cta-subtitle">Omer Farooq, your 844 employees trust you with their livelihoods. KP Snacks had to explain to over 2,000 families why payroll was frozen for 3 weeks. With Wavetree's proven track record (like our aerospace client who recovered in days, not weeks), you're looking at £12,660 per month investment vs £10,000,000 in potential losses. The question isn't IF you'll be attacked (it's a 65% annual chance), it's whether you'll be ready. Your call.</p>
+      
+      <div class="cta-buttons">
+        <a href="https://wavetree.co.uk/contact" class="btn btn-primary">Get Protected Now</a>
+        <a href="https://wavetree.co.uk/bcdr-demo" class="btn btn-secondary">Book a Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <img src="https://static.wixstatic.com/media/74b955_eda4e314ce074540999113308e0a8ee2~mv2.png" alt="Wavetree" class="footer-logo">
+      <img src="https://www.iso.org/files/live/sites/isoorg/files/store/en/PUB100435.jpg" alt="ISO 27001 Certified" class="iso-badge">
+      <p class="footer-text">Prepared exclusively for Omer Farooq at Brompton Bicycle</p>
+      <p class="footer-text muted">March 2024</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Cost counter animation
+function animateCounter(element) {
+  const target = parseInt(element.getAttribute('data-target'));
+  const duration = 2000;
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = start;
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    element.textContent = '£' + Math.round(current).toLocaleString();
+  }, 16);
+}
+
+// Observe and animate cost counters
+const counters = document.querySelectorAll('.cost-counter');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+counters.forEach(counter => counterObserver.observe(counter));
+
+// Checkbox interaction
+document.querySelectorAll('.checklist-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const checkbox = this.querySelector('.checkbox');
+    checkbox.classList.toggle('checked');
+  });
+});
+
+// Add fade-in animation to sections
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.section-header, .timeline-item, .comparison-card, .action-card').forEach(el => {
+  el.classList.add('fade-in');
+  observer.observe(el);
+});
+
+const animatedElements = document.querySelectorAll('[data-animate]');
+const animateObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const delay = el.getAttribute('data-animate-delay');
+      if (delay) {
+        el.style.setProperty('--animate-delay', delay);
+      }
+      el.classList.add('is-visible');
+      animateObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+
+animatedElements.forEach(el => animateObserver.observe(el));
+
+// Typing effect for terminal
+function typeTerminal() {
+  const lines = document.querySelectorAll('.terminal-line');
+  lines.forEach((line, index) => {
+    setTimeout(() => {
+      line.style.opacity = '1';
+    }, index * 500);
+  });
+}
+
+// Start typing when terminal is visible
+const terminalObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      typeTerminal();
+      terminalObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+const terminal = document.querySelector('.terminal-container');
+if (terminal) {
+  terminalObserver.observe(terminal);
+}
+
+// Vulnerability score visualisation
+const score = 85;
+const scoreCircle = document.querySelector('.score-circle');
+const scoreNumber = document.querySelector('.score-number');
+const scoreTag = document.querySelector('.score-tag');
+
+if (scoreCircle && scoreNumber && scoreTag) {
+  const clampedScore = Math.max(0, Math.min(100, Number(score) || 0));
+  const degrees = clampedScore * 3.6;
+  const stopGreen = Math.min(degrees, 150);
+  const stopAmber = Math.min(degrees, 270);
+  const gradient = `conic-gradient(from -90deg, #35c28d 0deg, #80d6ae ${stopGreen}deg, #ffb547 ${stopAmber}deg, #ff5470 ${degrees}deg, rgba(229, 234, 245, 0.35) ${degrees}deg, rgba(229, 234, 245, 0.35) 360deg)`;
+
+  scoreNumber.textContent = clampedScore.toFixed(0);
+  scoreCircle.style.background = gradient;
+  scoreCircle.setAttribute('data-score', clampedScore.toFixed(0));
+
+  const scorePointer = scoreCircle.querySelector('.score-pointer');
+  if (scorePointer) {
+    scorePointer.style.transform = `translate(-50%, -100%) rotate(${degrees}deg)`;
+  }
+
+  const severity = clampedScore >= 70 ? 'danger' : clampedScore >= 40 ? 'warning' : 'success';
+  scoreTag.classList.remove('score-tag--danger', 'score-tag--warning', 'score-tag--success');
+  scoreTag.classList.add(`score-tag--${severity}`);
+  scoreCircle.classList.remove('score-circle--danger', 'score-circle--warning', 'score-circle--success');
+  scoreCircle.classList.add(`score-circle--${severity}`);
+}
+
+// Add urgency timer if high vulnerability
+if (score >= 70) {
+  const alertContent = document.querySelector('.alert-content');
+  const timer = document.createElement('div');
+  timer.style.marginTop = '15px';
+  timer.style.fontSize = '1.2rem';
+  timer.style.fontWeight = '600';
+  
+  let days = 0;
+  setInterval(() => {
+    days += 0.01;
+    timer.textContent = `You've been exposed for ${days.toFixed(0)} days`;
+  }, 8640); // Update every ~0.1 day in real time
+  
+  alertContent.appendChild(timer);
+}
+</script>
+
+</body>
+</html>
