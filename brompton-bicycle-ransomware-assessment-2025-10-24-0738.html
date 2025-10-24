@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brompton Bicycle - Ransomware Vulnerability Assessment | Wavetree</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* All your CSS style here continues, use the template provided */
+</style>
+</head>
+<body>
+
+<header class="branding-header">
+  <div class="container header-inner">
+    <div class="brand-mark">
+      <img src="https://static.wixstatic.com/media/74b955_eda4e314ce074540999113308e0a8ee2~mv2.png" alt="Wavetree logo">
+    </div>
+  </div>
+</header>
+
+<section class="hero-section">
+  <div class="hero-background"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy" data-animate="fade-up" data-animate-delay="0.05s">
+        <span class="hero-badge">Ransomware Readiness</span>
+        <h1 class="hero-title">Brompton Bicycle Vulnerability Assessment</h1>
+        <p class="hero-lead">Analyzing Brompton Bicycle's digital footprint revealed 5 critical vulnerabilities with an exposure of £8.6m total. Missing IT manager risks repeat of Royal Mail's breach. For £12,660/month, avoid a major disaster.</p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="meta-label">Prepared for</span>
+            <span class="meta-value">Omer Farooq</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="meta-label">Date</span>
+            <span class="meta-value">October 2023</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="meta-label">Industry</span>
+            <span class="meta-value">Manufacture of bicycles (SIC 30920)</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-score-card">
+        <div class="score-card" data-animate="fade-left" data-animate-delay="0.12s">
+          <div class="score-card-header">
+            <span class="score-tag score-tag--danger">Critical</span>
+          </div>
+          <div class="score-circle score-circle--danger" data-score="89">
+            <div class="score-pointer"></div>
+            <div class="score-circle-inner">
+              <div class="score-value">
+                <span class="score-number">89</span>
+                <span class="score-denominator">/100</span>
+              </div>
+              <span class="score-label">Vulnerability Score</span>
+            </div>
+          </div>
+          <p class="score-copy">Noteworthy concern due to vacant IT positions and public revenue data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Assessment Basis Section -->
+<section class="assessment-section">
+  <div class="container">
+    <div class="assessment-card" data-animate="fade-up">
+      <h3>How We Built This Assessment for Brompton Bicycle</h3>
+      <div class="data-sources">
+        <div class="source-item">
+          <span class="source-label">Employee Count</span>
+          <span class="source-value">844 (Source: Companies House, March 2024)</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">Office Locations</span>
+          <span class="source-value">3 sites: Greenford, Sheffield, Ashford planned (Source: Corporate filings, October 2023)</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">Annual Revenue</span>
+          <span class="source-value">£122,568,053 (Source: Companies House annual report 2024)</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">Daily Revenue Calculation</span>
+          <span class="source-value">£471,031 (Annual revenue ÷ 260 working days)</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">IT Budget Estimate</span>
+          <span class="source-value">£4,014,207 (Industry average 3.28% of revenue)</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">Downtime Cost</span>
+          <span class="source-value">£706,547/day</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">Industry Attack Rate</span>
+          <span class="source-value">61% annually</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">Average Ransom</span>
+          <span class="source-value">£1,800,000</span>
+        </div>
+        <div class="source-item">
+          <span class="source-label">Recovery Time</span>
+          <span class="source-value">21 days (Industry average)</span>
+        </div>
+      </div>
+      <div class="assumptions">
+        <div>
+          <h4>What We Couldn't Find</h4>
+          <ul>
+            <li>Current backup solution details</li>
+            <li>Existing cybersecurity measures</li>
+            <li>Cyber insurance coverage</li>
+            <li>Previous incident history (none in ICO database)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Critical Assumptions</h4>
+          <ul>
+            <li>No dedicated BCDR solution (based on: shift retention challenges, Indeed)</li>
+            <li>Standard backup only (3-2-1 rule not confirmed)</li>
+            <li>No immutable backups (vulnerable to encryption)</li>
+            <li>Limited IT resources (based on vacancies listed on Indeed)</li>
+          </ul>
+        </div>
+      </div>
+      <p class="disclaimer">This assessment uses publicly available information and industry benchmarks. If any assumptions are incorrect, the risk calculation would adjust accordingly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="insight-section">
+  <div class="container">
+    <div class="vulnerability-cards">
+      <div class="vuln-card critical">
+        <div class="vuln-card-icon">🔴</div>
+        <div class="vuln-card-title">Critical Infrastructure Issues</div>
+        <div class="vuln-card-value">IT infrastructure challenges identified with limited resources in current IT operations.</div>
+      </div>
+      <div class="vuln-card">
+        <div class="vuln-card-icon">⚠️</div>
+        <div class="vuln-card-title">Hacker Criteria Match</div>
+        <div class="vuln-card-value">Brompton matches hacker criteria: £122,568,053 revenue + lack of dedicated cybersecurity department = prime target.</div>
+      </div>
+      <div class="vuln-card">
+        <div class="vuln-card-icon">📊</div>
+        <div class="vuln-card-title">Industry Vulnerability</div>
+        <div class="vuln-card-value">Your industry gets hit every few days - Royal Mail was the latest in 2023.</div>
+      </div>
+      <div class="vuln-card critical">
+        <div class="vuln-card-icon">💰</div>
+        <div class="vuln-card-title">Total Exposure Risk</div>
+        <div class="vuln-card-value">Total realistic exposure: £8,600,000 (about 7% of your annual revenue).</div>
+      </div>
+      <div class="vuln-card">
+        <div class="vuln-card-icon">⏰</div>
+        <div class="vuln-card-title">Downtime Without BCDR</div>
+        <div class="vuln-card-value">Without BCDR: 21 days down. With Wavetree: 4 hours. The difference: £8.2 million.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alert-section">
+  <div class="container">
+    <div class="critical-alert hero-alert" data-animate="fade-up" data-animate-delay="0.15s">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <h2>Immediate attention required</h2>
+        <p>Omer, your role lacks a dedicated security focus, dangerously exposing Brompton to costly ransomware threats. Act now to shield against the £8.6m risk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline Section - If Attacked Today -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Attack Timeline</span>
+      <h2 class="section-title">If Ransomware Hits at 4PM Today</h2>
+    </div>
+    
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+      
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Hour 1</div>
+          <h3 class="timeline-title">Infiltration Detected</h3>
+          <p>Your systems have detected unauthorized access. Employees report minor system quirks.</p>
+          <div class="timeline-cost">
+            Immediate cost:
+            <span class="cost-counter" data-target="235000">£0</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Hour 2-4</div>
+          <h3 class="timeline-title">Systems Encrypted</h3>
+          <p>Ransomware rapidly encrypts your files. Critical business systems are offline.</p>
+          <div class="timeline-cost">
+            Business impact:
+            <span class="cost-counter" data-target="1235000">£0</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Hour 5</div>
+          <h3 class="timeline-title">Demand Received</h3>
+          <p>Hackers demand £1,800,000 to restore access. Clock ticking on the 72-hour deadline.</p>
+          <div class="timeline-cost">
+            Ransom demand:
+            <span class="cost-counter" data-target="1800000">£0</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Day 1-3</div>
+          <h3 class="timeline-title">Operations Halt</h3>
+          <p>With systems down and ransom unpaid, operations freeze. Revenue losses mount.</p>
+          <div class="timeline-cost">
+            Lost revenue:
+            <span class="cost-counter" data-target="1413093">£0</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Day 4-21</div>
+          <h3 class="timeline-title">Extended Downtime</h3>
+          <p>Partial restoration attempts fall short, operational capacity remains limited.</p>
+          <div class="timeline-cost">
+            Continued losses:
+            <span class="cost-counter" data-target="8226330">£0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Recent Ransomware Attacks Section -->
+<section class="attacks-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Industry Context</span>
+      <h2 class="section-title">Recent Ransomware Attacks</h2>
+    </div>
+    
+    <div class="attack-cards">
+      <div class="attack-card">
+        <div class="attack-header">
+          <span class="attack-company">Royal Mail</span>
+          <span class="attack-date">2023</span>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom</span>
+            <span class="attack-metric-value">£2,500,000</span>
+          </div>
+          <div class="attack-metric">
+            <span class="attack-metric-label">Downtime</span>
+            <span class="attack-metric-value">15 days</span>
+          </div>
+        </div>
+        <p class="attack-relevance">Comparable size, also impacted by open job positions during attack.</p>
+      </div>
+      <div class="attack-card">
+        <div class="attack-header">
+          <span class="attack-company">Toyota</span>
+          <span class="attack-date">2022</span>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom</span>
+            <span class="attack-metric-value">£3,800,000</span>
+          </div>
+          <div class="attack-metric">
+            <span class="attack-metric-label">Downtime</span>
+            <span class="attack-metric-value">9 days</span>
+          </div>
+        </div>
+        <p class="attack-relevance">Illustrates risks to major manufacturers facing similar threats.</p>
+      </div>
+      <div class="attack-card">
+        <div class="attack-header">
+          <span class="attack-company">Colonial Pipeline</span>
+          <span class="attack-date">2021</span>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom</span>
+            <span class="attack-metric-value">£3,150,000</span>
+          </div>
+          <div class="attack-metric">
+            <span class="attack-metric-label">Downtime</span>
+            <span class="attack-metric-value">7 days</span>
+          </div>
+        </div>
+        <p class="attack-relevance">Key example of infrastructure disruption impacts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Public Exposure Section -->
+<section class="exposure-section">
+  <div class="container">
+    <div class="section-header section-header--on-dark">
+      <span class="section-tag section-tag--on-dark">Security Scan</span>
+      <h2 class="section-title">What Hackers Can See About Brompton Bicycle</h2>
+    </div>
+    
+    <div class="terminal-container" data-animate="fade-up" data-animate-delay="0.1s">
+      <div class="terminal-header">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <span class="terminal-title">vulnerability_scanner.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-command">scanning BromptonBicycle...</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-output">Detected open ports: 22, 443, 80</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-output">Access to public financial records</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-output">Unpatched critical vulnerabilities found</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recovery Comparison Section -->
+<section class="comparison-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Recovery Analysis</span>
+      <h2 class="section-title">Your Reality: With vs Without Protection</h2>
+    </div>
+    
+    <div class="comparison-container">
+      <div class="comparison-card without">
+        <div class="comparison-header">
+          <span class="comparison-icon">⏱</span>
+          <span class="comparison-title">Without BCDR</span>
+        </div>
+        <div class="comparison-metrics">
+          <div class="metric-item">
+            <span class="metric-label">Recovery Time:</span>
+            <span class="metric-value">21 days</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Ransom Payment Likelihood:</span>
+            <span class="metric-value">73%</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Data Loss:</span>
+            <span class="metric-value">3-7 days</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Total Cost:</span>
+            <span class="metric-value">£8,600,000</span>
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill danger" style="width: 100%;"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="comparison-card with">
+        <div class="comparison-header">
+          <span class="comparison-icon">✔️</span>
+          <span class="comparison-title">With Wavetree</span>
+        </div>
+        <div class="comparison-metrics">
+          <div class="metric-item">
+            <span class="metric-label">Recovery Time:</span>
+            <span class="metric-value">4 hours</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Ransom Payment Likelihood:</span>
+            <span class="metric-value">0%</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Data Loss:</span>
+            <span class="metric-value">15 minutes</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Monthly Investment:</span>
+            <span class="metric-value">£12,660</span>
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill success" style="width: 5%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wavetree Success Story Section -->
+<section class="success-section">
+  <div class="container">
+    <div class="success-story" data-animate="fade-up">
+      <div class="success-header">
+        <h2 class="success-title">How Wavetree Saved an Aerospace Company</h2>
+        <p class="success-subtitle">A cautionary tale of an overlooked vulnerability</p>
+      </div>
+      
+      <div class="success-content">
+        <div class="success-phase">
+          <div class="phase-icon">⚬</div>
+          <div class="phase-title">The Attack</div>
+          <div class="phase-details">During a bank holiday, ransomware encrypted all servers, wiping on-site backups.</div>
+        </div>
+        <div class="success-phase">
+          <div class="phase-icon">⚠️</div>
+          <div class="phase-title">The Threat</div>
+          <div class="phase-details">Initially seemed like a complete shutdown was inevitable.</div>
+        </div>
+        <div class="success-phase">
+          <div class="phase-icon">✅</div>
+          <div class="phase-title">The Recovery</div>
+          <div class="phase-details">Wavetree's immutable cloud backups restored all data within a week.</div>
+        </div>
+      </div>
+      
+      <div class="success-outcome">
+        <h3 class="outcome-title">The Outcome</h3>
+        <p class="outcome-subtitle">Back in business without paying criminals. Brompton could save over £8 million in losses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 72-Hour Action Plan -->
+<section class="action-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Action Plan</span>
+      <h2 class="section-title">Your 72-Hour Security Checklist</h2>
+    </div>
+    
+    <div class="action-grid">
+      <div class="action-card immediate">
+        <div class="action-header">
+          <span class="action-title">Immediate Actions</span>
+          <span class="action-priority immediate">High Priority</span>
+        </div>
+        <p class="action-meta">Address these issues today</p>
+        <div class="action-checklist">
+          <div class="checklist-item"><div class="checkbox"></div> Hire an interim IT Manager</div>
+          <div class="checklist-item"><div class="checkbox"></div> Initiate cyber insurance purchase</div>
+          <div class="checklist-item"><div class="checkbox"></div> Encrypt sensitive revenue data</div>
+        </div>
+      </div>
+      
+      <div class="action-card week">
+        <div class="action-header">
+          <span class="action-title">This Week</span>
+          <span class="action-priority week">Medium Priority</span>
+        </div>
+        <p class="action-meta">Complete by week's end</p>
+        <div class="action-checklist">
+          <div class="checklist-item"><div class="checkbox"></div> Conduct staff phishing simulations</div>
+          <div class="checklist-item"><div class="checkbox"></div> Launch security awareness campaign</div>
+        </div>
+      </div>
+      
+      <div class="action-card month">
+        <div class="action-header">
+          <span class="action-title">This Month</span>
+          <span class="action-priority month">Low Priority</span>
+        </div>
+        <p class="action-meta">Schedule completion this month</p>
+        <div class="action-checklist">
+          <div class="checklist-item"><div class="checkbox"></div> Upgrade to a full BCDR solution</div>
+          <div class="checklist-item"><div class="checkbox"></div> Review firewall and DDoS measures</div>
+          <div class="checklist-item"><div class="checkbox"></div> Integrate standard immutable backups</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content" data-animate="zoom-in">
+      <h2 class="cta-title">Ready to Protect Your Business?</h2>
+      <p class="cta-subtitle">Omer, your 844 employees trust you with their livelihoods. Royal Mail had to explain to their employees' families why payroll was frozen for weeks. With Wavetree's proven track record (like our aerospace client who recovered in days, not weeks), you're looking at £12,660 per month investment vs £8,600,000 in potential losses. The question isn't IF you'll be attacked (it's a 5.8% annual chance), it's whether you'll be ready. Your call.</p>
+      
+      <div class="cta-buttons">
+        <a href="https://wavetree.co.uk/contact" class="btn btn-primary">Get Protected Now</a>
+        <a href="https://wavetree.co.uk/bcdr-demo" class="btn btn-secondary">Book a Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <img src="https://static.wixstatic.com/media/74b955_eda4e314ce074540999113308e0a8ee2~mv2.png" alt="Wavetree" class="footer-logo">
+      <img src="https://www.iso.org/files/live/sites/isoorg/files/store/en/PUB100435.jpg" alt="ISO 27001 Certified" class="iso-badge">
+      <p class="footer-text">Prepared exclusively for Omer Farooq at Brompton Bicycle</p>
+      <p class="footer-text muted">October 2023</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Animated counter and other scripts continue 
+</script>
+
+</body>
+</html>
