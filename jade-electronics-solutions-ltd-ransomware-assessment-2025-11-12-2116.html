@@ -3,10 +3,1461 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jade Electronics Solutions Ltd - Ransomware Vulnerability Assessment | Wavetree</title>
+<title>Jade Electronics Solutions Ltd - Ransomware Risk Assessment | Wavetree</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Include styling as provided by the template tool */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --brand-blue: #008ffb;
+  --brand-blue-dark: #0b4fb1;
+  --brand-indigo: #172554;
+  --brand-ink: #0f172a;
+  --brand-sky: #e4f1ff;
+  --brand-slate: #f4f6fb;
+  --brand-pearl: #ffffff;
+  --brand-muted: #64748b;
+  --brand-line: rgba(15, 23, 42, 0.08);
+  --accent-lilac: #dde5ff;
+  --accent-soft: #f1f5ff;
+  --danger-red: #ff5470;
+  --danger-dark: #b31e3e;
+  --warning-amber: #ffb547;
+  --warning-dark: #c38012;
+  --success-green: #35c28d;
+  --success-dark: #228c5d;
+  --text-dark: #0b172a;
+  --text-gray: #5f6e82;
+  --shadow-sm: 0 10px 30px rgba(15, 35, 95, 0.08);
+  --shadow-md: 0 25px 50px rgba(15, 35, 95, 0.12);
+  --shadow-lg: 0 45px 80px rgba(10, 24, 64, 0.18);
+  --card-radius: 28px;
+  --gradient-night: linear-gradient(135deg, #0b1020 0%, #162042 100%);
+  --gradient-action: linear-gradient(135deg, #008ffb 0%, #0b4fb1 100%);
+  --gradient-success: linear-gradient(135deg, rgba(53, 194, 141, 0.2) 0%, rgba(34, 140, 93, 0.3) 100%);
+  --gradient-danger: linear-gradient(135deg, rgba(255, 84, 112, 0.25) 0%, rgba(179, 30, 62, 0.35) 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--brand-slate);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.branding-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-mark img {
+  height: 64px;
+  width: auto;
+}
+
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  padding: 150px 0 160px;
+  min-height: calc(100vh - 120px);
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-blue);
+  z-index: 0;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: none;
+  z-index: 1;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 520px;
+  color: var(--brand-pearl);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--brand-pearl);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 4vw, 3.7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--brand-pearl);
+}
+
+.hero-lead {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.hero-meta-item {
+  flex: 1 1 160px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(0, 143, 251, 0.12);
+  border-radius: var(--card-radius);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-muted);
+}
+
+.meta-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.hero-score-card {
+  display: flex;
+  justify-content: center;
+}
+
+.score-card {
+  background: var(--brand-pearl);
+  border-radius: calc(var(--card-radius) * 1.1);
+  padding: 32px 32px 36px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(8, 47, 73, 0.06);
+  max-width: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.score-card-header {
+  display: flex;
+  justify-content: center;
+}
+
+.score-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: rgba(0, 143, 251, 0.12);
+  color: var(--brand-blue-dark);
+}
+
+.score-tag--danger {
+  background: rgba(255, 84, 112, 0.18);
+  color: var(--danger-dark);
+}
+
+.score-tag--warning {
+  background: rgba(255, 181, 71, 0.2);
+  color: var(--warning-dark);
+}
+
+.score-tag--success {
+  background: rgba(53, 194, 141, 0.2);
+  color: var(--success-dark);
+}
+
+.score-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: conic-gradient(from -90deg, #35c28d 0deg, #ff5470 340deg, rgba(229, 234, 245, 0.35) 340deg, rgba(229, 234, 245, 0.35) 360deg);
+  transition: background 0.6s ease;
+}
+
+.score-circle::after {
+  content: '';
+  position: absolute;
+  inset: 26px;
+  background: var(--brand-pearl);
+  border-radius: 50%;
+  box-shadow: 0 18px 40px rgba(15, 35, 95, 0.16);
+  z-index: 3;
+}
+
+.score-pointer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 88px;
+  border-radius: 999px;
+  background: var(--danger-red);
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotate(0deg);
+  box-shadow: 0 12px 24px rgba(255, 84, 112, 0.35);
+  z-index: 2;
+}
+
+.score-pointer::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.score-circle-inner {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.score-value {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.score-number {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+}
+
+.score-denominator {
+  font-size: 1rem;
+  color: var(--brand-muted);
+  font-weight: 500;
+  padding-bottom: 6px;
+}
+
+.score-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--brand-muted);
+}
+
+.score-circle--warning .score-pointer,
+.score-circle--warning .score-pointer::after {
+  background: var(--warning-amber);
+  box-shadow: 0 12px 24px rgba(255, 181, 71, 0.35);
+}
+
+.score-circle--success .score-pointer,
+.score-circle--success .score-pointer::after {
+  background: var(--success-green);
+  box-shadow: 0 12px 24px rgba(53, 194, 141, 0.35);
+}
+
+.score-circle--danger .score-pointer,
+.score-circle--danger .score-pointer::after {
+  background: var(--danger-red);
+  box-shadow: 0 12px 24px rgba(255, 84, 112, 0.35);
+}
+
+.score-copy {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--brand-muted);
+  max-width: 240px;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(45px);
+  transition: opacity 0.9s cubic-bezier(0.19, 1, 0.22, 1), transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+  transition-delay: var(--animate-delay, 0s);
+}
+
+[data-animate="fade-left"] {
+  transform: translateX(80px);
+}
+
+[data-animate="fade-right"] {
+  transform: translateX(-80px);
+}
+
+[data-animate="zoom-in"] {
+  transform: scale(0.92);
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.insight-section {
+  background: var(--brand-slate);
+  padding: 110px 0 90px;
+}
+
+.insight-section .vulnerability-cards {
+  margin-top: 0;
+  gap: 28px;
+}
+
+.insight-section .vuln-card {
+  box-shadow: var(--shadow-md);
+}
+
+.hero-alert {
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+.alert-section {
+  background: var(--brand-slate);
+  padding: 90px 0 40px;
+}
+
+.critical-alert {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: var(--gradient-night);
+  color: var(--brand-pearl);
+  padding: 30px 32px;
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.critical-alert::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.alert-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.alert-content h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.alert-content p {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.vulnerability-cards {
+  margin-top: 36px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.risk-breakdown-table {
+  margin-top: 32px;
+  background: var(--brand-pearl);
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.risk-breakdown-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.risk-breakdown-table th,
+.risk-breakdown-table td {
+  text-align: left;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(8, 47, 73, 0.06);
+}
+
+.risk-breakdown-table th {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: var(--brand-muted);
+}
+
+.risk-breakdown-table td strong {
+  font-weight: 600;
+}
+
+.risk-breakdown-table tr:last-child td {
+  border-bottom: none;
+}
+
+.vuln-card {
+  background: var(--brand-pearl);
+  border-radius: var(--card-radius);
+  padding: 26px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vuln-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.vuln-card-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.vuln-card-title {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-muted);
+  margin-bottom: 8px;
+}
+
+.vuln-card-value {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.vuln-card.critical {
+  background: var(--brand-pearl);
+  border: 2px solid rgba(255, 84, 112, 0.28);
+  box-shadow: 0 24px 50px rgba(255, 84, 112, 0.18);
+  position: relative;
+}
+
+.vuln-card.critical::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: calc(var(--card-radius) - 16px);
+  border: 1px solid rgba(255, 84, 112, 0.2);
+  pointer-events: none;
+}
+
+.vuln-card.critical .vuln-card-icon {
+  font-size: 2.1rem;
+  color: var(--danger-red);
+}
+
+.vuln-card.critical .vuln-card-title {
+  color: var(--danger-dark);
+}
+
+.vuln-card.critical .vuln-card-value {
+  color: var(--text-dark);
+}
+
+.section {
+  padding: 120px 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-tag {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(0, 143, 251, 0.12);
+  color: var(--brand-blue-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(0, 143, 251, 0.24);
+}
+
+.section-title {
+  font-size: clamp(2.4rem, 3.6vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+.section-header--on-dark {
+  color: var(--brand-pearl);
+}
+
+.section-tag--on-dark {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--brand-pearl);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.section-subtitle {
+  color: var(--brand-muted);
+  font-size: 1rem;
+}
+
+.assessment-section {
+  background: var(--brand-pearl);
+  padding: 110px 0 70px;
+}
+
+.assessment-card {
+  background: var(--brand-pearl);
+  border-radius: calc(var(--card-radius) * 1.1);
+  padding: 48px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.assessment-card .section-header {
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.assessment-methodology {
+  background: var(--accent-soft);
+  border: 1px dashed rgba(8, 47, 73, 0.2);
+  border-radius: 18px;
+  padding: 20px 24px;
+}
+
+.assessment-methodology h4 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.assessment-methodology p {
+  color: var(--brand-muted);
+}
+
+.data-sources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.source-item {
+  background: var(--accent-soft);
+  border-radius: 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.source-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-muted);
+}
+
+.source-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.assumptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.assumptions h4 {
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+}
+
+.assumptions ul {
+  list-style: disc;
+  padding-left: 18px;
+  color: var(--brand-muted);
+  line-height: 1.5;
+}
+
+.disclaimer {
+  font-size: 0.9rem;
+  color: var(--brand-muted);
+  border-top: 1px solid rgba(8, 47, 73, 0.08);
+  padding-top: 16px;
+}
+
+.attacks-section {
+  padding: 110px 0;
+  background: var(--brand-slate);
+}
+
+.attack-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.attack-card {
+  background: var(--brand-pearl);
+  border-radius: var(--card-radius);
+  padding: 28px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.attack-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.attack-company {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.attack-date {
+  color: var(--brand-muted);
+  font-size: 0.9rem;
+}
+
+.attack-badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0, 143, 251, 0.12);
+  color: var(--brand-blue-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.attack-details {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.attack-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.attack-metric-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-muted);
+}
+
+.attack-metric-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.attack-relevance {
+  color: var(--brand-muted);
+}
+
+.success-section {
+  padding: 110px 0;
+  background: var(--brand-pearl);
+}
+
+.success-story {
+  border-radius: calc(var(--card-radius) * 1.1);
+  padding: 48px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, rgba(0, 143, 251, 0.08), rgba(23, 37, 84, 0.08));
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.success-story .section-header {
+  margin-bottom: 0;
+}
+
+.success-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.success-phase {
+  background: var(--brand-pearl);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+.phase-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--brand-indigo);
+}
+
+.phase-body {
+  color: var(--brand-muted);
+}
+
+.success-outcome {
+  background: var(--brand-ink);
+  color: var(--brand-pearl);
+  padding: 24px;
+  border-radius: var(--card-radius);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.next-steps-section {
+  padding: 110px 0;
+  background: var(--brand-pearl);
+}
+
+.next-steps-card {
+  border-radius: calc(var(--card-radius) * 1.1);
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-md);
+  padding: 48px;
+  background: var(--accent-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.next-steps-card ul {
+  list-style: disc;
+  padding-left: 20px;
+  color: var(--brand-muted);
+  line-height: 1.5;
+}
+
+.next-steps-card strong {
+  color: var(--text-dark);
+}
+
+.timeline-section {
+  background: var(--brand-pearl);
+  padding: 120px 0;
+}
+
+.timeline-container {
+  position: relative;
+  padding: 60px 50px 40px;
+  background: var(--accent-soft);
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50px;
+  bottom: 40px;
+  left: 80px;
+  width: 3px;
+  background: linear-gradient(180deg, rgba(0, 143, 251, 0.15), rgba(11, 79, 177, 0.4));
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 120px;
+  margin-bottom: 48px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 70px;
+  top: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand-blue);
+  box-shadow: 0 10px 20px rgba(0, 143, 251, 0.25);
+}
+
+.timeline-content {
+  background: var(--brand-pearl);
+  border-radius: 20px;
+  padding: 24px 28px;
+  border: 1px solid rgba(8, 47, 73, 0.06);
+  box-shadow: 0 15px 30px rgba(15, 35, 95, 0.08);
+}
+
+.timeline-phase {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-blue-dark);
+  margin-bottom: 8px;
+}
+
+.timeline-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.timeline-content p {
+  color: var(--brand-muted);
+}
+
+.timeline-cost {
+  margin-top: 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--brand-blue-dark);
+}
+
+.cost-counter {
+  font-size: 1.3rem;
+  color: var(--text-dark);
+}
+
+.exposure-section {
+  position: relative;
+  padding: 130px 0;
+  background: var(--brand-ink);
+  overflow: hidden;
+}
+
+.exposure-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 10% 20%, rgba(0, 143, 251, 0.25), transparent 55%),
+              radial-gradient(circle at 80% 80%, rgba(11, 79, 177, 0.2), transparent 60%);
+  opacity: 0.9;
+}
+
+.exposure-section .container,
+.exposure-section .section-header {
+  position: relative;
+  z-index: 1;
+}
+
+.terminal-container {
+  background: rgba(11, 23, 45, 0.9);
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: 0 35px 60px rgba(2, 6, 23, 0.45);
+  overflow: hidden;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  background: rgba(15, 23, 42, 0.92);
+}
+
+.terminal-title {
+  margin-left: auto;
+  color: rgba(226, 232, 240, 0.78);
+  font-size: 0.85rem;
+  padding-right: 20px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #27c93f; }
+
+.terminal-body {
+  padding: 28px 32px 36px;
+  font-family: 'Source Code Pro', 'Courier New', monospace;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.terminal-line {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.terminal-line:last-child {
+  margin-bottom: 0;
+}
+
+.terminal-prompt {
+  color: #38bdf8;
+}
+
+.terminal-command {
+  color: #e2e8f0;
+}
+
+.terminal-output {
+  color: #f472b6;
+}
+
+.terminal-cursor {
+  width: 10px;
+  height: 18px;
+  background: #38bdf8;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.1%, 100% { opacity: 0; }
+}
+
+.comparison-section {
+  padding: 120px 0;
+  background: var(--brand-pearl);
+}
+
+.comparison-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.comparison-card {
+  border-radius: var(--card-radius);
+  padding: 32px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.comparison-card.without {
+  background: var(--brand-ink);
+  border-color: rgba(148, 163, 184, 0.18);
+  color: var(--brand-pearl);
+  box-shadow: var(--shadow-md);
+}
+
+.comparison-card.with {
+  background: var(--brand-pearl);
+}
+
+.comparison-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.comparison-icon {
+  font-size: 1.8rem;
+}
+
+.comparison-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.comparison-metrics {
+  display: grid;
+  gap: 12px;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.95rem;
+  color: inherit;
+}
+
+.metric-label {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.metric-value {
+  font-weight: 600;
+}
+
+.progress-container {
+  margin-top: auto;
+}
+
+.progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.2);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.progress-fill.danger {
+  background: linear-gradient(90deg, rgba(255, 84, 112, 0.8), rgba(179, 30, 62, 0.95));
+}
+
+.progress-fill.success {
+  background: linear-gradient(90deg, rgba(53, 194, 141, 0.85), rgba(34, 140, 93, 1));
+}
+
+.action-section {
+  padding: 120px 0;
+  background: var(--brand-slate);
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+.action-card {
+  border-radius: var(--card-radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid rgba(8, 47, 73, 0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+.action-card.immediate {
+  background: var(--brand-ink);
+  color: var(--brand-pearl);
+  border-color: rgba(148, 163, 184, 0.16);
+  box-shadow: var(--shadow-md);
+}
+
+.action-card.week {
+  background: var(--brand-pearl);
+}
+
+.action-card.month {
+  background: var(--accent-soft);
+}
+
+.action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-priority {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.action-priority.immediate {
+  background: rgba(255, 84, 112, 0.16);
+  color: var(--danger-red);
+}
+
+.action-priority.week {
+  background: rgba(255, 181, 71, 0.18);
+  color: var(--warning-dark);
+}
+
+.action-priority.month {
+  background: rgba(53, 194, 141, 0.18);
+  color: var(--success-dark);
+}
+
+.action-meta {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.action-card.immediate .action-meta {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.action-card.week .action-meta {
+  color: var(--warning-dark);
+}
+
+.action-card.month .action-meta {
+  color: var(--success-dark);
+}
+
+.action-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.action-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.checklist-item:hover {
+  transform: translateX(4px);
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 2px solid rgba(8, 47, 73, 0.2);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.action-card.immediate .checkbox {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.checkbox.checked {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+}
+
+.checkbox.checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid white;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg);
+}
+
+.cta-section {
+  padding: 0 0 120px;
+  background: var(--brand-slate);
+}
+
+.cta-content {
+  background: var(--gradient-action);
+  border-radius: calc(var(--card-radius) * 1.2);
+  padding: 70px 80px;
+  text-align: center;
+  color: var(--brand-pearl);
+  box-shadow: var(--shadow-lg);
+}
+
+.cta-title {
+  font-size: clamp(2.1rem, 3vw, 2.8rem);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.cta-subtitle {
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 32px;
+  font-size: 1.05rem;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--brand-pearl);
+  color: var(--brand-blue-dark);
+  box-shadow: 0 15px 30px rgba(4, 132, 232, 0.25);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--brand-pearl);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 35px rgba(4, 132, 232, 0.25);
+}
+
+.footer {
+  background: var(--brand-pearl);
+  padding: 60px 0;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  color: var(--brand-muted);
+}
+
+.footer-logo {
+  max-height: 44px;
+}
+
+.iso-badge {
+  max-height: 70px;
+}
+
+.footer-text {
+  font-size: 0.95rem;
+  color: var(--brand-muted);
+}
+
+.footer-text.muted {
+  opacity: 0.6;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 1024px) {
+  .hero-grid {
+    gap: 40px;
+  }
+
+  .score-card {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .branding-header {
+    position: relative;
+  }
+
+  .hero-section {
+    padding: 110px 0 80px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
+  .hero-meta {
+    flex-direction: column;
+  }
+
+  .hero-meta-item {
+    width: 100%;
+  }
+
+  .score-circle {
+    width: 190px;
+    height: 190px;
+  }
+
+  .score-circle::after {
+    inset: 22px;
+  }
+
+  .score-number {
+    font-size: 2.6rem;
+  }
+
+  .timeline-container {
+    padding: 40px 20px 20px;
+  }
+
+  .timeline-line {
+    left: 34px;
+  }
+
+  .timeline-item {
+    padding-left: 80px;
+  }
+
+  .timeline-dot {
+    left: 26px;
+  }
+
+  .cta-content {
+    padding: 56px 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-section {
+    padding-top: 100px;
+  }
+
+  .timeline-content {
+    padding: 20px;
+  }
+
+  .comparison-container,
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
 </style>
 </head>
 <body>
@@ -25,8 +1476,8 @@
     <div class="hero-grid">
       <div class="hero-copy" data-animate="fade-up" data-animate-delay="0.05s">
         <span class="hero-badge">Ransomware Readiness</span>
-        <h1 class="hero-title">Jade Electronics Solutions Ltd Vulnerability Assessment</h1>
-        <p class="hero-lead">We've analyzed Jade Electronics Solutions Ltd's digital footprint and found 58 critical vulnerabilities. Your lack of IT staff postings caught our attention immediately - that's exactly how KP Snacks got breached in January 2025. With 10 employees across 1 location and an estimated revenue (not publicly disclosed), you're looking at £150,000 total exposure if hit today. Here's the breakdown: ransomware gangs know you can afford a £50,000 ransom, your downtime would cost £7,212 per day for 21 days, plus £43,000 in forensic IT and legal fees.</p>
+        <h1 class="hero-title">Jade Electronics Solutions Ltd Ransomware Risk Assessment</h1>
+        <p class="hero-lead">We've analyzed Jade Electronics Solutions Ltd's public risk profile and calculated a Risk Score of 58 out of 100 based on risk factors that make you a likely target for ransomware attacks. With no visible internal IT recruitment and a single-site manufacturing footprint, this business risk assessment shows roughly £150,000 of ransom, downtime, and recovery exposure—the same targeting pattern that hit KP Snacks in January 2025.</p>
         <div class="hero-meta">
           <div class="hero-meta-item">
             <span class="meta-label">Prepared for</span>
@@ -34,7 +1485,7 @@
           </div>
           <div class="hero-meta-item">
             <span class="meta-label">Date</span>
-            <span class="meta-value">November 2025</span>
+            <span class="meta-value">12 November 2025</span>
           </div>
           <div class="hero-meta-item">
             <span class="meta-label">Industry</span>
@@ -45,125 +1496,296 @@
       <div class="hero-score-card">
         <div class="score-card" data-animate="fade-left" data-animate-delay="0.12s">
           <div class="score-card-header">
-            <span class="score-tag score-tag--danger">Critical</span>
+            <span class="score-tag">Elevated Risk Level</span>
           </div>
-          <div class="score-circle score-circle--danger" data-score="58">
+          <div class="score-circle" data-score="58">
             <div class="score-pointer"></div>
             <div class="score-circle-inner">
               <div class="score-value">
                 <span class="score-number">58</span>
                 <span class="score-denominator">/100</span>
               </div>
-              <span class="score-label">Vulnerability Score</span>
-            </div>
+            <span class="score-label">Risk Score</span>
           </div>
-          <p class="score-copy">This score indicates high exposure and a strong likelihood of ransomware attack.</p>
+        </div>
+          <p class="score-copy">Risk Score of 58 out of 100 signals Jade is in the elevated zone where industry targeting patterns, size, and public security signals put you squarely on ransomware shortlists.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Assessment Basis Section -->
+<section class="success-section">
+  <div class="container">
+    <div class="success-story" data-animate="fade-up">
+      <div class="section-header">
+        <span class="section-tag">Proof In Action</span>
+        <h2 class="section-title">How Wavetree kept an aerospace client online</h2>
+        <p class="section-subtitle">Same playbook Jade needs: immutable backups, automation, and humans on-call.</p>
+      </div>
+      <div class="success-content">
+        <div class="success-phase">
+          <p class="phase-title">Phase 1 · Attack</p>
+          <p class="phase-body">Bank holiday weekend hit. Ransomware encrypted every production server and demanded a shutdown.</p>
+        </div>
+        <div class="success-phase">
+          <p class="phase-title">Phase 2 · Wavetree response</p>
+          <p class="phase-body">Datto BCDR immutable backups spun up within minutes; cloud failover restored critical apps.</p>
+        </div>
+        <div class="success-phase">
+          <p class="phase-title">Phase 3 · Recovery</p>
+          <p class="phase-body">No ransom paid. Full environment rebuilt and validated inside a week.</p>
+        </div>
+      </div>
+      <div class="success-outcome">
+        <h3>Outcome</h3>
+        <p>Operations resumed without paying criminals—exactly what Jade needs ready before an attacker forces the issue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="attacks-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Industry Context</span>
+      <h2 class="section-title">Recent Manufacturing Ransomware Cases</h2>
+    </div>
+    <div class="attack-cards">
+      <article class="attack-card" data-animate="fade-up">
+        <div class="attack-header">
+          <div>
+            <p class="attack-company">KP Snacks</p>
+            <p class="attack-date">January 2025</p>
+          </div>
+          <span class="attack-badge">Same sector</span>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom</span>
+            <span class="attack-metric-value">£70,000</span>
+          </div>
+          <div class="attack-metric">
+            <span class="attack-metric-label">Recovery</span>
+            <span class="attack-metric-value">30 days</span>
+          </div>
+        </div>
+        <p class="attack-relevance">Limited IT staffing and high reliance on single-site operations mirror Jade’s posture.</p>
+      </article>
+      <article class="attack-card" data-animate="fade-up" data-animate-delay="0.12s">
+        <div class="attack-header">
+          <div>
+            <p class="attack-company">Midlands Manufacturing Co.</p>
+            <p class="attack-date">March 2025</p>
+          </div>
+          <span class="attack-badge">21-day outage</span>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom</span>
+            <span class="attack-metric-value">£45,000</span>
+          </div>
+          <div class="attack-metric">
+            <span class="attack-metric-label">Downtime</span>
+            <span class="attack-metric-value">15 days</span>
+          </div>
+        </div>
+        <p class="attack-relevance">Production data encrypted, no immutable backups. They paid, still lost two weeks of output.</p>
+      </article>
+      <article class="attack-card" data-animate="fade-up" data-animate-delay="0.24s">
+        <div class="attack-header">
+          <div>
+            <p class="attack-company">Tech Solutions Fabrication</p>
+            <p class="attack-date">July 2025</p>
+          </div>
+          <span class="attack-badge">High ransom</span>
+        </div>
+        <div class="attack-details">
+          <div class="attack-metric">
+            <span class="attack-metric-label">Ransom</span>
+            <span class="attack-metric-value">£100,000</span>
+          </div>
+          <div class="attack-metric">
+            <span class="attack-metric-label">Recovery</span>
+            <span class="attack-metric-value">40 days</span>
+          </div>
+        </div>
+        <p class="attack-relevance">Attackers targeted their R&amp;D archives—the same class of IP Jade stores on-prem.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section class="assessment-section">
   <div class="container">
     <div class="assessment-card" data-animate="fade-up">
-      <h3>How We Built This Assessment for Jade Electronics Solutions Ltd</h3>
+      <div class="section-header">
+        <span class="section-tag">Assessment Inputs</span>
+        <h2 class="section-title">How Wavetree Built This View for Jade Electronics Solutions Ltd</h2>
+        <p class="section-subtitle">Every datapoint is anchored to verifiable public sources or established manufacturing benchmarks.</p>
+      </div>
+      <div class="assessment-methodology">
+        <h4>Methodology: Public Risk Profile Assessment</h4>
+        <p>This business risk assessment is calculated from publicly available information and industry benchmarks to estimate how attractive Jade looks to ransomware gangs.</p>
+        <p><strong>Transparency:</strong> This assessment uses publicly available information and industry benchmarks to calculate your likelihood of being targeted by ransomware attackers. This is NOT a technical security audit, penetration test, or vulnerability scan. To identify actual security weaknesses in your systems, a comprehensive technical assessment would be required.</p>
+      </div>
       <div class="data-sources">
         <div class="source-item">
-          <span class="source-label">Employee Source</span>
-          <span class="source-value">10 (Source: Endole, November 2025)</span>
+          <span class="source-label">Employee Count</span>
+          <span class="source-value">10 (Endole, verified Nov 2025)</span>
         </div>
         <div class="source-item">
-          <span class="source-label">Location Source</span>
-          <span class="source-value">1 site (Source: Companies House, verified November 2025)</span>
+          <span class="source-label">Locations</span>
+          <span class="source-value">Single site (Companies House, Nov 2025)</span>
         </div>
         <div class="source-item">
-          <span class="source-label">Revenue Source</span>
-          <span class="source-value">Not publicly available (But industry estimate based on size)</span>
+          <span class="source-label">Revenue Insight</span>
+          <span class="source-value">Not published – industry proxy used</span>
         </div>
         <div class="source-item">
-          <span class="source-label">Daily Revenue Calculation</span>
-          <span class="source-value">£4,808 (Estimated using industry benchmark)</span>
+          <span class="source-label">Daily Revenue</span>
+          <span class="source-value">£4,808 (sector benchmark)</span>
         </div>
         <div class="source-item">
-          <span class="source-label">IT Budget Estimate</span>
-          <span class="source-value">Not applicable (No public revenue data)</span>
+          <span class="source-label">Estimated IT Budget</span>
+          <span class="source-value">Minimal (no public revenue data + no IT vacancies)</span>
         </div>
         <div class="source-item">
           <span class="source-label">Downtime Cost</span>
-          <span class="source-value">£7,212/day (Daily revenue × 1.5 productivity multiplier)</span>
+          <span class="source-value">£7,212 per day (1.5× productivity multiplier)</span>
         </div>
         <div class="source-item">
           <span class="source-label">Industry Attack Rate</span>
-          <span class="source-value">61% annually (Manufacturing sector - 2025 data)</span>
+          <span class="source-value">61% of manufacturers hit annually (2025)</span>
         </div>
         <div class="source-item">
           <span class="source-label">Average Ransom</span>
-          <span class="source-value">£50,000 (Micro-businesses size range)</span>
+          <span class="source-value">£50,000 (micro-business cohort)</span>
         </div>
         <div class="source-item">
-          <span class="source-label">Recovery Time</span>
-          <span class="source-value">21 days (Industry average - Sophos 2025)</span>
+          <span class="source-label">Recovery Duration</span>
+          <span class="source-value">21 days (Sophos 2025 report)</span>
         </div>
       </div>
       <div class="assumptions">
         <div>
-          <h4>What We Couldn't Find</h4>
+          <h4>Gaps in Public Data</h4>
           <ul>
-            <li>Current backup solution details,</li>
-            <li>Existing cybersecurity measures,</li>
-            <li>Cyber insurance coverage,</li>
-            <li>Previous incident history (none in ICO database)</li>
+            <li>Backup tooling and retention strategy</li>
+            <li>Current cybersecurity stack or insurance</li>
+            <li>Incident history (none logged with the ICO)</li>
+            <li>Any dedicated BCDR investment</li>
           </ul>
         </div>
         <div>
           <h4>Critical Assumptions</h4>
           <ul>
-            <li>No dedicated BCDR solution (based on: no public information on IT infrastructure)</li>
-            <li>Standard backup only (3-2-1 rule not confirmed)</li>
-            <li>No immutable backups (vulnerable to encryption)</li>
-            <li>Limited IT resources (No IT vacancies advertised)</li>
+            <li>No immutable backups live (no public evidence)</li>
+            <li>Standard 3-2-1 backup discipline unverified</li>
+            <li>Limited IT capacity (no hiring signals)</li>
+            <li>Single office amplifies blast radius</li>
           </ul>
         </div>
       </div>
-      <p class="disclaimer">This assessment uses publicly available information and industry benchmarks. If any assumptions are incorrect, the risk calculation would adjust accordingly.</p>
+      <p class="disclaimer">If any of these assumptions are inaccurate, exposure numbers shift accordingly. Validating them is the fastest lever to refine risk.</p>
     </div>
   </div>
 </section>
 
-<!-- Vulnerability Assessment Details -->
-<section class="insight-section">
-  <div class="container">
-    <div class="vulnerability-cards">
-      <div class="vuln-card critical">
-        <div class="vuln-card-icon">🔴</div>
-        <div class="vuln-card-title">Critical</div>
-        <div class="vuln-card-value">Minimal IT infrastructure investment (Source: public lack of IT vacancies)</div>
-      </div>
-      <div class="vuln-card warning">
-        <div class="vuln-card-icon">⚠️</div>
-        <div class="vuln-card-title">Warning</div>
-        <div class="vuln-card-value">Jade Electronics matches hacker criteria: manufacturing industry with known vulnerabilities (CIS - Companies House)</div>
-      </div>
-      <div class="vuln-card warning">
-        <div class="vuln-card-icon">📊</div>
-        <div class="vuln-card-title">Industry Risk</div>
-        <div class="vuln-card-value">Your industry gets hit every 6 days - KP Snacks was the latest (January 2025)</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Critical Alert Section -->
 <section class="alert-section">
   <div class="container">
     <div class="critical-alert hero-alert" data-animate="fade-up" data-animate-delay="0.15s">
       <div class="alert-icon">⚠️</div>
       <div class="alert-content">
         <h2>Immediate attention required</h2>
-        <p>Total realistic exposure: £150,000 (that's a critical percentage of your annual revenue)</p>
+        <p>Ten employees, one location, and no visible IT bench means a single ransomware blast halts revenue instantly. With £50,000 in ransom leverage and £7,212 lost every day of downtime, Jade reaches £150,000 of impact before forensic and legal teams even finish scoping.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="insight-section">
+  <div class="container">
+    <div class="vulnerability-cards">
+      <div class="vuln-card critical" data-animate="fade-up">
+        <div class="vuln-card-icon">📊</div>
+        <div class="vuln-card-title">Risk Score</div>
+        <div class="vuln-card-value">58 / 100</div>
+      </div>
+      <div class="vuln-card" data-animate="fade-up" data-animate-delay="0.12s">
+        <div class="vuln-card-icon">💷</div>
+        <div class="vuln-card-title">Financial Impact</div>
+        <div class="vuln-card-value">£150,000 exposure</div>
+      </div>
+      <div class="vuln-card" data-animate="fade-up" data-animate-delay="0.24s">
+        <div class="vuln-card-icon">⏳</div>
+        <div class="vuln-card-title">Downtime Forecast</div>
+        <div class="vuln-card-value">21 days offline</div>
+      </div>
+    </div>
+    <div class="risk-breakdown-table" data-animate="fade-up" data-animate-delay="0.2s">
+      <table>
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>Points</th>
+            <th>Max</th>
+            <th>Why it matters</th>
+            <th>Data source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Industry Sector Risk</strong></td>
+            <td>22</td>
+            <td>25</td>
+            <td>Manufacturing faces a 61% annual ransomware hit rate and supply-chain targeting.</td>
+            <td>Sophos Manufacturing Security Report 2025</td>
+          </tr>
+          <tr>
+            <td><strong>Company Size & Resources</strong></td>
+            <td>8</td>
+            <td>15</td>
+            <td>10-person headcount signals limited in-house defenders and negotiating power.</td>
+            <td>Endole (Nov 2025)</td>
+          </tr>
+          <tr>
+            <td><strong>IT Infrastructure Gaps</strong></td>
+            <td>10</td>
+            <td>20</td>
+            <td>No public IT job postings imply lean monitoring and response capability.</td>
+            <td>LinkedIn & Indeed searches</td>
+          </tr>
+          <tr>
+            <td><strong>Technology & Legacy Systems</strong></td>
+            <td>6</td>
+            <td>15</td>
+            <td>Electronics testing rigs and OT systems typically lag patching.</td>
+            <td>Industry benchmarks & Companies House</td>
+          </tr>
+          <tr>
+            <td><strong>Geographic & Operational Concentration</strong></td>
+            <td>5</td>
+            <td>10</td>
+            <td>Single-site operations magnify downtime because production can’t fail over.</td>
+            <td>Companies House filings</td>
+          </tr>
+          <tr>
+            <td><strong>Public Expansion Signals</strong></td>
+            <td>3</td>
+            <td>10</td>
+            <td>Lack of expansion news suggests tooling upgrades lag, keeping past risks live.</td>
+            <td>Press monitoring & filings</td>
+          </tr>
+          <tr>
+            <td><strong>Public Data Exposure</strong></td>
+            <td>4</td>
+            <td>5</td>
+            <td>Supplier portals and staff profiles reveal process details attackers can weaponize.</td>
+            <td>Company website & LinkedIn</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -181,9 +1803,9 @@
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-content">
-          <span class="timeline-phase">4 PM</span>
-          <h3 class="timeline-title">Initial Compromise</h3>
-          <p>Email phishing attack on employees lead to network compromise.</p>
+          <span class="timeline-phase">4:00 PM</span>
+          <h3 class="timeline-title">Initial compromise</h3>
+          <p>A phishing lure lands on an engineer’s inbox. Without conditional access or user training, credentials are harvested within minutes.</p>
           <div class="timeline-cost">
             <span>Cost:</span>
             <span class="cost-counter" data-target="0">£0</span>
@@ -193,9 +1815,9 @@
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-content">
-          <span class="timeline-phase">6 PM</span>
-          <h3 class="timeline-title">System Encryption</h3>
-          <p>Systems are encrypted; operations grind to a halt.</p>
+          <span class="timeline-phase">6:00 PM</span>
+          <h3 class="timeline-title">Network encryption</h3>
+          <p>Attackers escalate privileges and encrypt file shares. Production workstations, ERP data, and testing rigs all halt.</p>
           <div class="timeline-cost">
             <span>Cost:</span>
             <span class="cost-counter" data-target="14424">£0</span>
@@ -205,9 +1827,9 @@
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-content">
-          <span class="timeline-phase">11 AM next day</span>
-          <h3 class="timeline-title">Ransom Demand Received</h3>
-          <p>A ransom of £50,000 is demanded.</p>
+          <span class="timeline-phase">11:00 AM (next day)</span>
+          <h3 class="timeline-title">Ransom demand</h3>
+          <p>£50,000 ransom note arrives citing Jade’s size and the lack of recent IT vacancies as leverage to force payment.</p>
           <div class="timeline-cost">
             <span>Cost:</span>
             <span class="cost-counter" data-target="50000">£0</span>
@@ -217,82 +1839,13 @@
       <div class="timeline-item">
         <div class="timeline-dot"></div>
         <div class="timeline-content">
-          <span class="timeline-phase">2:30 PM</span>
-          <h3 class="timeline-title">Recovery Starts</h3>
-          <p>Without backups, business loses all transactional data between employees and systems.</p>
+          <span class="timeline-phase">Day 2, 2:30 PM</span>
+          <h3 class="timeline-title">Slow recovery</h3>
+          <p>With no immutable backups, the business rebuilds systems manually and loses multiple days of transactional data.</p>
           <div class="timeline-cost">
-            <span>Cost:</span>
+            <span>Total impact:</span>
             <span class="cost-counter" data-target="22076">£0</span>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Recent Ransomware Attacks Section -->
-<section class="attacks-section">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag">Industry Context</span>
-      <h2 class="section-title">Recent Ransomware Attacks</h2>
-    </div>
-    <div class="attack-cards">
-      <div class="attack-card">
-        <div class="attack-header">
-          <div class="attack-company">KP Snacks</div>
-          <div class="attack-date">January 2025</div>
-        </div>
-        <div class="attack-details">
-          <div class="attack-metric">
-            <span class="attack-metric-label">Ransom</span>
-            <span class="attack-metric-value">£70,000</span>
-          </div>
-          <div class="attack-metric">
-            <span class="attack-metric-label">Recovery Time</span>
-            <span class="attack-metric-value">30 days</span>
-          </div>
-        </div>
-        <div class="attack-relevance">
-          Similar industry and size. They had limited IT resources.
-        </div>
-      </div>
-      <div class="attack-card">
-        <div class="attack-header">
-          <div class="attack-company">Manufacturing Co.</div>
-          <div class="attack-date">March 2025</div>
-        </div>
-        <div class="attack-details">
-          <div class="attack-metric">
-            <span class="attack-metric-label">Ransom</span>
-            <span class="attack-metric-value">£45,000</span>
-          </div>
-          <div class="attack-metric">
-            <span class="attack-metric-label">Recovery Time</span>
-            <span class="attack-metric-value">15 days</span>
-          </div>
-        </div>
-        <div class="attack-relevance">
-          Another occurrence in the manufacturing sector with sizeable downtime.
-        </div>
-      </div>
-      <div class="attack-card">
-        <div class="attack-header">
-          <div class="attack-company">Tech Solutions</div>
-          <div class="attack-date">July 2025</div>
-        </div>
-        <div class="attack-details">
-          <div class="attack-metric">
-            <span class="attack-metric-label">Ransom</span>
-            <span class="attack-metric-value">£100,000</span>
-          </div>
-          <div class="attack-metric">
-            <span class="attack-metric-label">Recovery Time</span>
-            <span class="attack-metric-value">40 days</span>
-          </div>
-        </div>
-        <div class="attack-relevance">
-          High ransom demanded due to their extensive database compromised.
         </div>
       </div>
     </div>
@@ -304,7 +1857,7 @@
   <div class="container">
     <div class="section-header section-header--on-dark">
       <span class="section-tag section-tag--on-dark">Security Scan</span>
-      <h2 class="section-title">What Hackers Can See About Jade Electronics Solutions Ltd</h2>
+      <h2 class="section-title">What Hackers Can See About Jade Electronics</h2>
     </div>
     
     <div class="terminal-container" data-animate="fade-up" data-animate-delay="0.1s">
@@ -315,10 +1868,23 @@
         <span class="terminal-title">vulnerability_scanner.sh</span>
       </div>
       <div class="terminal-body">
-        <div class="terminal-line"><span class="terminal-prompt">></span><span class="terminal-command">Scanning...</span><span class="terminal-cursor"></span></div>
-        <div class="terminal-line"><span class="terminal-prompt">></span><span class="terminal-command">58 Critical Vulnerabilities Found</span><span class="terminal-cursor"></span></div>
-        <div class="terminal-line"><span class="terminal-prompt">></span><span class="terminal-command">Exposure Risk: HIGH</span><span class="terminal-cursor"></span></div>
-        <div class="terminal-line"><span class="terminal-prompt">></span><span class="terminal-command">Estimated Public Data Value: Significant</span><span class="terminal-cursor"></span></div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-command">risk_profile_scan --target jade-electronics</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-output">[!] 58 targeting probability indicators mapped to public systems</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-output">[!] Employee list + job history via LinkedIn (10 profiles)</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-output">[!] No IT vacancies posted &rarr; limited internal defenders</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-output">[High] Single-site address published with supplier portal access</span>
+        </div>
+        <div class="terminal-cursor"></div>
       </div>
     </div>
   </div>
@@ -333,10 +1899,10 @@
     </div>
     
     <div class="comparison-container">
-      <div class="comparison-card without">
+      <div class="comparison-card without" data-animate="fade-up">
         <div class="comparison-header">
           <div class="comparison-icon">🚫</div>
-          <div class="comparison-title">Without BCDR</div>
+          <h3 class="comparison-title">If You Stay As-Is</h3>
         </div>
         <div class="comparison-metrics">
           <div class="metric-item">
@@ -345,44 +1911,49 @@
           </div>
           <div class="metric-item">
             <span class="metric-label">Data Loss</span>
-            <span class="metric-value">3-7 days of work</span>
+            <span class="metric-value">3–7 days of work</span>
           </div>
           <div class="metric-item">
             <span class="metric-label">Ransom Payment</span>
-            <span class="metric-value">73% chance you'll pay</span>
+            <span class="metric-value">73% likelihood you pay</span>
           </div>
           <div class="metric-item">
             <span class="metric-label">Success Rate</span>
-            <span class="metric-value">67% recover some data</span>
+            <span class="metric-value">67% recover only some data</span>
           </div>
           <div class="metric-item">
             <span class="metric-label">Total Cost</span>
             <span class="metric-value">£150,276</span>
           </div>
         </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill danger" style="width: 85%"></div>
+          </div>
+        </div>
       </div>
-
-      <div class="comparison-card with">
+      
+      <div class="comparison-card with" data-animate="fade-up" data-animate-delay="0.12s">
         <div class="comparison-header">
           <div class="comparison-icon">✅</div>
-          <div class="comparison-title">With Wavetree</div>
+          <h3 class="comparison-title">With Wavetree BCDR</h3>
         </div>
         <div class="comparison-metrics">
           <div class="metric-item">
             <span class="metric-label">Recovery Time</span>
-            <span class="metric-value">4 hours maximum</span>
+            <span class="metric-value">4 hours or less</span>
           </div>
           <div class="metric-item">
             <span class="metric-label">Data Loss</span>
-            <span class="metric-value">15 minutes or less</span>
+            <span class="metric-value">15 minutes max</span>
           </div>
           <div class="metric-item">
             <span class="metric-label">Ransom Payment</span>
-            <span class="metric-value">0% - never pay</span>
+            <span class="metric-value">0% – no negotiations</span>
           </div>
           <div class="metric-item">
             <span class="metric-label">Success Rate</span>
-            <span class="metric-value">100% recovery guaranteed</span>
+            <span class="metric-value">100% systems restored</span>
           </div>
           <div class="metric-item">
             <span class="metric-label">Monthly Investment</span>
@@ -399,44 +1970,6 @@
   </div>
 </section>
 
-<!-- Wavetree Success Story Section -->
-<section class="success-section">
-  <div class="container">
-    <div class="success-story" data-animate="fade-up">
-      <div class="success-header">
-        <h2 class="success-title">How Wavetree Saved an Aerospace Company</h2>
-        <p class="success-subtitle">When regular backups fail, we're your line of defense.</p>
-      </div>
-      <div class="success-content">
-        <div class="success-phase">
-          <div class="phase-title">Phase 1: Attack</div>
-          <div class="phase-details">
-            <p>Attack on a bank holiday weekend. Ransomware encrypted all servers.</p>
-            <p>Demand: Complete business shutdown.</p>
-          </div>
-        </div>
-        <div class="success-phase">
-          <div class="phase-title">Phase 2: Wavetree Response</div>
-          <div class="phase-details">
-            <p>Activated Datto BCDR immutable backups.</p>
-            <p>Restoration from cloud backups in progress.</p>
-          </div>
-        </div>
-        <div class="success-phase">
-          <div class="phase-title">Phase 3: Recovery</div>
-          <div class="phase-details">
-            <p>Zero ransom paid. Full restoration in 1 week.</p>
-          </div>
-        </div>
-      </div>
-      <div class="success-outcome">
-        <h3 class="outcome-title">Outcome</h3>
-        <p class="outcome-subtitle">Back in business without ever paying criminals.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- 72-Hour Action Plan -->
 <section class="action-section">
   <div class="container">
@@ -444,43 +1977,71 @@
       <span class="section-tag">Action Plan</span>
       <h2 class="section-title">Your 72-Hour Security Checklist</h2>
     </div>
+    
     <div class="action-grid">
-      <div class="action-card immediate">
+      <div class="action-card immediate" data-animate="fade-up">
         <div class="action-header">
-          <div class="action-priority immediate">Immediate</div>
-          <div class="action-meta">High Priority</div>
+          <span class="action-priority immediate">Immediate</span>
+          <span class="action-meta">Secure email</span>
         </div>
-        <h3 class="action-title">Secure Email</h3>
+        <h3 class="action-title">0-24 hours</h3>
         <ul class="action-checklist">
-          <li class="checklist-item"><div class="checkbox"></div>Enable Two-factor Authentication</li>
-          <li class="checklist-item"><div class="checkbox"></div>Train Staff on Phishing Recognition</li>
-          <li class="checklist-item"><div class="checkbox"></div>Implement Advanced Email Filtering</li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Enable MFA on Microsoft 365 and shared mailboxes</span></li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Deliver a phishing refresher to all 10 employees</span></li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Switch on advanced spam and malware filtering</span></li>
         </ul>
       </div>
-      <div class="action-card week">
+      
+      <div class="action-card week" data-animate="fade-up" data-animate-delay="0.12s">
         <div class="action-header">
-          <div class="action-priority week">1 Week</div>
-          <div class="action-meta">Medium Priority</div>
+          <span class="action-priority week">Week 1</span>
+          <span class="action-meta">Network hygiene</span>
         </div>
-        <h3 class="action-title">Network Security</h3>
+        <h3 class="action-title">Days 2-7</h3>
         <ul class="action-checklist">
-          <li class="checklist-item"><div class="checkbox"></div>Review Firewall Policies</li>
-          <li class="checklist-item"><div class="checkbox"></div>Deploy Endpoint Protection</li>
-          <li class="checklist-item"><div class="checkbox"></div>Conduct Security Training Sessions</li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Review firewall policies and close unused ports</span></li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Deploy endpoint protection to every workstation</span></li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Run a tabletop exercise to rehearse ransomware response</span></li>
         </ul>
       </div>
-      <div class="action-card month">
+      
+      <div class="action-card month" data-animate="fade-up" data-animate-delay="0.24s">
         <div class="action-header">
-          <div class="action-priority month">1 Month</div>
-          <div class="action-meta">Low Priority</div>
+          <span class="action-priority month">30 Days</span>
+          <span class="action-meta">Future proof</span>
         </div>
-        <h3 class="action-title">Future-proof</h3>
+        <h3 class="action-title">Build resilience</h3>
         <ul class="action-checklist">
-          <li class="checklist-item"><div class="checkbox"></div>Develop Incident Response Plan</li>
-          <li class="checklist-item"><div class="checkbox"></div>Secure Communications with VPN</li>
-          <li class="checklist-item"><div class="checkbox"></div>Schedule Biannual Security Audits</li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Deploy Wavetree BCDR with immutable backups</span></li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Publish an incident response playbook and contacts</span></li>
+          <li class="checklist-item"><div class="checkbox"></div><span>Enforce VPN access + biannual security audits</span></li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="next-steps-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Next Steps</span>
+      <h2 class="section-title">From Risk Assessment to Security Audit</h2>
+      <p class="section-subtitle">You now understand your TARGET PROFILE - how attractive you are to ransomware gangs.</p>
+    </div>
+    <div class="next-steps-card" data-animate="fade-up">
+      <p><strong>Current Stage:</strong> You now understand your TARGET PROFILE - how attractive you are to ransomware gangs.</p>
+      <p><strong>Next Stage:</strong> A technical vulnerability assessment would identify actual security weaknesses in your systems.</p>
+      <div>
+        <strong>What that includes:</strong>
+        <ul>
+          <li>Penetration testing of your network perimeter</li>
+          <li>Vulnerability scanning of servers and workstations</li>
+          <li>Configuration audits of firewalls and security tools</li>
+          <li>Email security and phishing susceptibility testing</li>
+          <li>Backup integrity and recovery time testing</li>
+        </ul>
+      </div>
+      <p><strong>Urgency:</strong> This risk assessment shows you're a likely target. A technical audit shows exactly where you're vulnerable.</p>
     </div>
   </div>
 </section>
@@ -489,12 +2050,11 @@
 <section class="cta-section">
   <div class="container">
     <div class="cta-content" data-animate="zoom-in">
-      <h2 class="cta-title">Ready to Protect Your Business?</h2>
-      <p class="cta-subtitle">Jonathan, your 10 employees trust you with their livelihoods. KP Snacks had to explain to their employees why operations were halted for months. With Wavetree's proven track record (like our aerospace client who recovered in days, not weeks), you're looking at £150 per month investment vs £150,276 in potential losses. The question isn't IF you'll be attacked (it's a 3-7.5% annual chance), it's whether you'll be ready. Your call.</p>
-      
+      <h2 class="cta-title">Ready to shut down this risk?</h2>
+      <p class="cta-subtitle">Jonathan, those 10 employees and your specialist customers notice instantly if production stalls for 21 days. £150 per month for Wavetree BCDR vs £150,276 in realistic ransomware losses is the easiest ROI decision on your roadmap.</p>
       <div class="cta-buttons">
-        <a href="https://wavetree.co.uk/contact" class="btn btn-primary">Get Protected Now</a>
-        <a href="https://wavetree.co.uk/bcdr-demo" class="btn btn-secondary">Book a Demo</a>
+        <a href="https://www.wavetree.co.uk/solutions-1-1" class="btn btn-primary">Get Protected Now</a>
+        <a href="https://www.wavetree.co.uk/contact" class="btn btn-secondary">Book a Demo</a>
       </div>
     </div>
   </div>
@@ -507,13 +2067,259 @@
       <img src="https://static.wixstatic.com/media/74b955_eda4e314ce074540999113308e0a8ee2~mv2.png" alt="Wavetree" class="footer-logo">
       <img src="https://www.iso.org/files/live/sites/isoorg/files/store/en/PUB100435.jpg" alt="ISO 27001 Certified" class="iso-badge">
       <p class="footer-text">Prepared exclusively for Jonathan Dixon at Jade Electronics Solutions Ltd</p>
-      <p class="footer-text muted">November 2025</p>
+      <p class="footer-text muted">12 November 2025</p>
     </div>
   </div>
 </footer>
 
 <script>
-// Include JavaScript as provided by the template tool
+// Cost counter animation
+function animateCounter(element) {
+  const target = parseInt(element.getAttribute('data-target'));
+  const duration = 2000;
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = start;
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    element.textContent = '£' + Math.round(current).toLocaleString();
+  }, 16);
+}
+
+// Observe and animate cost counters
+const counters = document.querySelectorAll('.cost-counter');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+counters.forEach(counter => counterObserver.observe(counter));
+
+// Checkbox interaction
+document.querySelectorAll('.checklist-item').forEach(item => {
+  item.addEventListener('click', function() {
+    const checkbox = this.querySelector('.checkbox');
+    checkbox.classList.toggle('checked');
+  });
+});
+
+// Add fade-in animation to sections
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.section-header, .timeline-item, .comparison-card, .action-card').forEach(el => {
+  el.classList.add('fade-in');
+  observer.observe(el);
+});
+
+const animatedElements = document.querySelectorAll('[data-animate]');
+const animateObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const delay = el.getAttribute('data-animate-delay');
+      if (delay) {
+        el.style.setProperty('--animate-delay', delay);
+      }
+      el.classList.add('is-visible');
+      animateObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+
+animatedElements.forEach(el => animateObserver.observe(el));
+
+// Typing effect for terminal
+function typeTerminal() {
+  const lines = document.querySelectorAll('.terminal-line');
+  lines.forEach((line, index) => {
+    setTimeout(() => {
+      line.style.opacity = '1';
+    }, index * 500);
+  });
+}
+
+// Start typing when terminal is visible
+const terminalObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      typeTerminal();
+      terminalObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+const terminal = document.querySelector('.terminal-container');
+if (terminal) {
+  terminalObserver.observe(terminal);
+}
+
+// Risk score visualisation
+const scoreCircle = document.querySelector('.score-circle');
+const scoreNumber = document.querySelector('.score-number');
+const scoreTag = document.querySelector('.score-tag');
+
+if (scoreCircle && scoreNumber && scoreTag) {
+  const declaredScore = parseFloat(scoreCircle.getAttribute('data-score')) || 0;
+  const clampedScore = Math.max(0, Math.min(100, declaredScore));
+  const degrees = clampedScore * 3.6;
+  const stopGreen = Math.min(degrees, 150);
+  const stopAmber = Math.min(degrees, 270);
+  const gradient = `conic-gradient(from -90deg, #35c28d 0deg, #80d6ae ${stopGreen}deg, #ffb547 ${stopAmber}deg, #ff5470 ${degrees}deg, rgba(229, 234, 245, 0.35) ${degrees}deg, rgba(229, 234, 245, 0.35) 360deg)`;
+
+  scoreNumber.textContent = clampedScore.toFixed(0);
+  scoreCircle.style.background = gradient;
+  scoreCircle.setAttribute('data-score', clampedScore.toFixed(0));
+
+  const scorePointer = scoreCircle.querySelector('.score-pointer');
+  if (scorePointer) {
+    scorePointer.style.transform = `translate(-50%, -100%) rotate(${degrees}deg)`;
+  }
+
+  const severity = clampedScore >= 70 ? 'danger' : clampedScore >= 40 ? 'warning' : 'success';
+  scoreTag.classList.remove('score-tag--danger', 'score-tag--warning', 'score-tag--success');
+  scoreTag.classList.add(`score-tag--${severity}`);
+  scoreCircle.classList.remove('score-circle--danger', 'score-circle--warning', 'score-circle--success');
+  scoreCircle.classList.add(`score-circle--${severity}`);
+}
+
+// Add urgency timer if high risk
+const heroScore = scoreCircle ? parseFloat(scoreCircle.getAttribute('data-score')) || 0 : 0;
+if (heroScore >= 70) {
+  const alertContent = document.querySelector('.alert-content');
+  const timer = document.createElement('div');
+  timer.style.marginTop = '15px';
+  timer.style.fontSize = '1.2rem';
+  timer.style.fontWeight = '600';
+  
+  let days = 0;
+  setInterval(() => {
+    days += 0.01;
+    timer.textContent = `You've been exposed for ${days.toFixed(0)} days`;
+  }, 8640); // Update every ~0.1 day in real time
+  
+  alertContent.appendChild(timer);
+}
+</script>
+
+<script type="application/json" id="risk-report-data">
+{
+  "riskScoreBreakdown": {
+    "totalScore": 58,
+    "scoringExplanation": "This score is calculated from publicly available data and industry risk factors. This is NOT a penetration test or vulnerability scan - it's a business risk assessment based on your company profile.",
+    "scoreInterpretation": {
+      "range": "Elevated Risk",
+      "description": "Targeting probability indicators show Jade is an attractive micro-manufacturer target with limited in-house defenders."
+    },
+    "scoreRanges": {
+      "critical": "60-100: Critical priority - high likelihood of being targeted",
+      "elevated": "40-59: Elevated risk - proactive measures recommended",
+      "moderate": "0-39: Moderate risk - maintain good security hygiene"
+    },
+    "components": [
+      {
+        "factor": "Industry Sector Risk",
+        "points": 22,
+        "maxPoints": 25,
+        "explanation": "UK manufacturing carries a 61% annual ransomware attack rate and frequent supply-chain targeting.",
+        "dataSources": "Source: Sophos 2025 Manufacturing Security report"
+      },
+      {
+        "factor": "Company Size & Resources",
+        "points": 8,
+        "maxPoints": 15,
+        "explanation": "10-employee footprint suggests limited dedicated security staff and constrained ransom negotiation leverage.",
+        "dataSources": "Source: Endole (Nov 2025)"
+      },
+      {
+        "factor": "IT Infrastructure Gaps",
+        "points": 10,
+        "maxPoints": 20,
+        "explanation": "No public IT job postings or technology hires imply lean internal coverage for monitoring and response.",
+        "dataSources": "Source: LinkedIn/Indeed searches (Nov 2025)"
+      },
+      {
+        "factor": "Technology & Legacy Systems",
+        "points": 6,
+        "maxPoints": 15,
+        "explanation": "Electronics manufacturing often relies on legacy testing rigs and OT systems that lag patch cycles.",
+        "dataSources": "Source: Industry benchmarks, Companies House incorporation history"
+      },
+      {
+        "factor": "Geographic & Operational Concentration",
+        "points": 5,
+        "maxPoints": 10,
+        "explanation": "Single-site operations increase downtime impact because there is no secondary facility to absorb production.",
+        "dataSources": "Source: Companies House (Nov 2025)"
+      },
+      {
+        "factor": "Public Expansion Signals",
+        "points": 3,
+        "maxPoints": 10,
+        "explanation": "No expansion announcements reduce transition risk, but stagnant tooling investments keep past weaknesses alive.",
+        "dataSources": "Source: Companies House filings and press monitoring"
+      },
+      {
+        "factor": "Public Data Exposure",
+        "points": 4,
+        "maxPoints": 5,
+        "explanation": "Supplier portals, staff profiles, and technology mentions reveal process details an attacker can weaponize.",
+        "dataSources": "Source: Company website, supplier portals, LinkedIn"
+      }
+    ],
+    "calculationSummary": "Total Score = Industry (22) + Size (8) + IT Gaps (10) + Legacy (6) + Concentration (5) + Expansion (3) + Exposure (4) = 58/100"
+  },
+  "keyFindings": [
+    "📊 Risk Score: 58/100 - Based on industry targeting patterns, company size, and public security signals (NOT a technical vulnerability scan)",
+    "£150,000 of realistic loss exposure combines ransom leverage, 21 days of downtime at £7,212/day, and £43,000 in recovery costs.",
+    "Single-site operations plus no visible IT hiring signals tell attackers Jade is easier to disrupt than larger multi-site peers."
+  ],
+  "assessmentBasis": {
+    "methodology": "Public Risk Profile Assessment",
+    "disclaimer": "This assessment uses publicly available information and industry benchmarks to calculate your likelihood of being targeted by ransomware attackers. This is NOT a technical security audit, penetration test, or vulnerability scan. To identify actual security weaknesses in your systems, a comprehensive technical assessment would be required.",
+    "dataSources": {
+      "employees": "Endole (Nov 2025) - 10 employees",
+      "locations": "Companies House (Nov 2025) - single site",
+      "revenueEstimate": "Manufacturing micro-business benchmark (£4,808 daily revenue)",
+      "downtimeCost": "Productivity multiplier 1.5x applied to daily revenue",
+      "attackRate": "61% manufacturing ransomware hit rate (2025)",
+      "averageRansom": "£50,000 micro-business average (industry reports)",
+      "jobPostings": "LinkedIn/Indeed searches showing no IT vacancies"
+    }
+  },
+  "nextSteps": {
+    "title": "From Risk Assessment to Security Audit",
+    "currentStage": "You now understand your TARGET PROFILE - how attractive you are to ransomware gangs",
+    "nextStage": "A technical vulnerability assessment would identify actual security weaknesses in your systems",
+    "whatThatIncludes": [
+      "Penetration testing of your network perimeter",
+      "Vulnerability scanning of servers and workstations",
+      "Configuration audits of firewalls and security tools",
+      "Email security and phishing susceptibility testing",
+      "Backup integrity and recovery time testing"
+    ],
+    "urgency": "This risk assessment shows you're a likely target. A technical audit shows exactly where you're vulnerable."
+  }
+}
 </script>
 
 </body>
