@@ -1122,6 +1122,34 @@ img {
   background: linear-gradient(90deg, rgba(53, 194, 141, 0.85), rgba(34, 140, 93, 1));
 }
 
+.tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -6px);
+  white-space: nowrap;
+  background: var(--brand-ink);
+  color: var(--brand-pearl);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 10px 20px rgba(15, 35, 95, 0.18);
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  transform: translate(-50%, -10px);
+}
+
 .action-section {
   padding: 120px 0;
   background: var(--brand-slate);
@@ -1957,7 +1985,7 @@ img {
           </div>
           <div class="metric-item">
             <span class="metric-label">Monthly Investment</span>
-            <span class="metric-value">£150</span>
+            <span class="metric-value tooltip" data-tooltip="Monthly cost is based on 1 agent (server) up to 1TB in size.">£150*</span>
           </div>
         </div>
         <div class="progress-container">
@@ -2293,6 +2321,23 @@ if (heroScore >= 70) {
     "£150,000 of realistic loss exposure combines ransom leverage, 21 days of downtime at £7,212/day, and £43,000 in recovery costs.",
     "Single-site operations plus no visible IT hiring signals tell attackers Jade is easier to disrupt than larger multi-site peers."
   ],
+  "recoveryComparison": {
+    "withoutWavetree": {
+      "recoveryTime": "21 days",
+      "dataLoss": "3-7 days of work",
+      "ransomPayment": "73% likelihood you'll pay",
+      "successRate": "67% recover only some data",
+      "totalCost": "£150,276"
+    },
+    "withWavetree": {
+      "recoveryTime": "≤4 hours",
+      "dataLoss": "≤15 minutes",
+      "ransomPayment": "0%",
+      "successRate": "100% systems restored",
+      "monthlyInvestment": "£150*",
+      "pricingNote": "* Monthly cost is based on 1 agent (server) up to 1TB in size"
+    }
+  },
   "assessmentBasis": {
     "methodology": "Public Risk Profile Assessment",
     "disclaimer": "This assessment uses publicly available information and industry benchmarks to calculate your likelihood of being targeted by ransomware attackers. This is NOT a technical security audit, penetration test, or vulnerability scan. To identify actual security weaknesses in your systems, a comprehensive technical assessment would be required.",
